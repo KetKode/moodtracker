@@ -29,11 +29,10 @@ async def main():
 
     # register routers in dispatcher
     dp.include_router(user_handlers.router)
-    dp.include_router(other_handlers.router)
 
     # launch polling
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
-if __name__ == "main":
+if __name__ == "__main__":
     asyncio.run(main())
