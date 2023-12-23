@@ -45,7 +45,7 @@ async def process_refuse_request(callback: CallbackQuery, state: FSMContext):
     await state.clear()
 
 
-# handle choosing **happy** as a basic emotion
+# 1 handle choosing **happy** as a basic emotion
 @router.callback_query(
     ChooseMood.choosing_basic_mood,
     F.data == "happy_pressed")
@@ -55,7 +55,7 @@ async def process_happy_basic(callback: CallbackQuery, state: FSMContext):
     await state.set_state(ChooseMood.choosing_sub_mood)
 
 
-# handle choosing sub_mood for **happy**
+# 1 handle choosing sub_mood for **happy**
 @router.callback_query(
     ChooseMood.choosing_sub_mood,
     F.data.in_([f"{sub_mood}_pressed" for sub_mood in happy_sub_moods]))
@@ -64,7 +64,7 @@ async def process_happy_selection(callback: CallbackQuery, state: FSMContext):
     await state.clear()
 
 
-# handle choosing **sad** as a basic emotion
+# 2 handle choosing **sad** as a basic emotion
 @router.callback_query(
     ChooseMood.choosing_basic_mood,
     F.data == "sad_pressed")
@@ -74,57 +74,105 @@ async def process_sad_basic(callback: CallbackQuery, state: FSMContext):
     await state.set_state(ChooseMood.choosing_sub_mood)
 
 
-# handle choosing sub_mood for **sad**
+# 2 handle choosing sub_mood for **sad**
 @router.callback_query(
     ChooseMood.choosing_sub_mood,
-    F.text.in_(sad_sub_moods))
+    F.data.in_([f"{sub_mood}_pressed" for sub_mood in sad_sub_moods]))
 async def process_sad_selection(callback: CallbackQuery, state: FSMContext):
-    await callback.message.edit_text(text=LEXICON_EN["respond_to_log"])
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+    await state.clear()
 
-#
-#
-# @router.message(Command(commands="help"))
-# async def process_help_command(message: Message):
-#     await message.answer(text=LEXICON_EN["/help"])
-#
-#
-# @router.message(Command(commands="log"))
-# async def process_help_command(message: Message):
-#     await message.answer(text=LEXICON_EN["/log"], reply_markup=basic_emotions_kb)
-#
-#
-#
-# @router.message(F.text == emotions_dict["happy"]["label"])
-# async def process_happy_answer(message: Message):
-#     await message.reply(text=LEXICON_EN["specify_emotion"], reply_markup=sub_emotions_happy_kb)
-#
-#
-# @router.message(F.text == emotions_dict["sad"]["label"])
-# async def process_sad_answer(message: Message):
-#     await message.reply(text=LEXICON_EN["specify_emotion"], reply_markup=sub_emotions_sad_kb)
-#
-#
-# @router.message(F.text == emotions_dict["angry"]["label"])
-# async def process_angry_answer(message: Message):
-#     await message.reply(text=LEXICON_EN["specify_emotion"], reply_markup=sub_emotions_angry_kb)
-#
-#
-# @router.message(F.text == emotions_dict["surprised"]["label"])
-# async def process_surprised_answer(message: Message):
-#     await message.reply(text=LEXICON_EN["specify_emotion"], reply_markup=sub_emotions_surprised_kb)
-#
-#
-# @router.message(F.text == emotions_dict["fearful"]["label"])
-# async def process_fearful_answer(message: Message):
-#     await message.reply(text=LEXICON_EN["specify_emotion"], reply_markup=sub_emotions_fearful_kb)
-#
-#
-# @router.message(F.text == emotions_dict["bad"]["label"])
-# async def process_bad_answer(message: Message):
-#     await message.reply(text=LEXICON_EN["specify_emotion"], reply_markup=sub_emotions_bad_kb)
-#
-#
-# @router.message(F.text == emotions_dict["disgusted"]["label"])
-# async def process_disgusted_answer(message: Message):
-#     await message.reply(text=LEXICON_EN["specify_emotion"], reply_markup=sub_emotions_disgusted_kb)
-#
+
+# 3 handle choosing **angry** as a basic emotion
+@router.callback_query(
+    ChooseMood.choosing_basic_mood,
+    F.data == "angry_pressed")
+async def process_angry_basic(callback: CallbackQuery, state: FSMContext):
+    await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
+                                     reply_markup=sub_moods_angry_kb)
+    await state.set_state(ChooseMood.choosing_sub_mood)
+
+
+# 3 handle choosing sub_mood for **angry**
+@router.callback_query(
+    ChooseMood.choosing_sub_mood,
+    F.data.in_([f"{sub_mood}_pressed" for sub_mood in angry_sub_moods]))
+async def process_angry_selection(callback: CallbackQuery, state: FSMContext):
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+    await state.clear()
+
+
+# 4 handle choosing **surprised** as a basic emotion
+@router.callback_query(
+    ChooseMood.choosing_basic_mood,
+    F.data == "surprised_pressed")
+async def process_surprised_basic(callback: CallbackQuery, state: FSMContext):
+    await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
+                                     reply_markup=sub_moods_surprised_kb)
+    await state.set_state(ChooseMood.choosing_sub_mood)
+
+
+# 4 handle choosing sub_mood for **surprised**
+@router.callback_query(
+    ChooseMood.choosing_sub_mood,
+    F.data.in_([f"{sub_mood}_pressed" for sub_mood in surprised_sub_moods]))
+async def process_surprised_selection(callback: CallbackQuery, state: FSMContext):
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+    await state.clear()
+
+
+# 5 handle choosing **fearful** as a basic emotion
+@router.callback_query(
+    ChooseMood.choosing_basic_mood,
+    F.data == "fearful_pressed")
+async def process_fearful_basic(callback: CallbackQuery, state: FSMContext):
+    await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
+                                     reply_markup=sub_moods_fearful_kb)
+    await state.set_state(ChooseMood.choosing_sub_mood)
+
+
+# 5 handle choosing sub_mood for **fearful**
+@router.callback_query(
+    ChooseMood.choosing_sub_mood,
+    F.data.in_([f"{sub_mood}_pressed" for sub_mood in fearful_sub_moods]))
+async def process_fearful_selection(callback: CallbackQuery, state: FSMContext):
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+    await state.clear()
+
+
+# 6 handle choosing **bad** as a basic emotion
+@router.callback_query(
+    ChooseMood.choosing_basic_mood,
+    F.data == "bad_pressed")
+async def process_bad_basic(callback: CallbackQuery, state: FSMContext):
+    await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
+                                     reply_markup=sub_moods_bad_kb)
+    await state.set_state(ChooseMood.choosing_sub_mood)
+
+
+# 6 handle choosing sub_mood for **bad**
+@router.callback_query(
+    ChooseMood.choosing_sub_mood,
+    F.data.in_([f"{sub_mood}_pressed" for sub_mood in bad_sub_moods]))
+async def process_bad_selection(callback: CallbackQuery, state: FSMContext):
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+    await state.clear()
+
+
+# 7 handle choosing **disgusted** as a basic emotion
+@router.callback_query(
+    ChooseMood.choosing_basic_mood,
+    F.data == "disgusted_pressed")
+async def process_disgusted_basic(callback: CallbackQuery, state: FSMContext):
+    await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
+                                     reply_markup=sub_moods_disgusted_kb)
+    await state.set_state(ChooseMood.choosing_sub_mood)
+
+
+# 7 handle choosing sub_mood for **disgusted**
+@router.callback_query(
+    ChooseMood.choosing_sub_mood,
+    F.data.in_([f"{sub_mood}_pressed" for sub_mood in disgusted_sub_moods]))
+async def process_disgusted_selection(callback: CallbackQuery, state: FSMContext):
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+    await state.clear()
