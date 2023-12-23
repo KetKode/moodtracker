@@ -1,3 +1,15 @@
+COMMANDS = {
+    "/help": "See available commands",
+
+    "/log": "Log today's mood",
+
+    "/history": "View your mood history and trends by period",
+
+    "/insights": "Get insights into your mood patterns",
+
+    "/tips": "Receive personalized tips to improve your mood",
+    }
+
 LEXICON_EN = {
     "/start": "🌈 <b>Welcome to Mood Tracker Journal - Your Personal Mood Tracker!</b>"
               "\n\n"
