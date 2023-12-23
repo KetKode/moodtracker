@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from aiogram.filters import CommandStart
 
-from lexicon.lexicon_en import LEXICON_EN, emotions_dict
+from moodtracker.lexicon.lexicon_en import LEXICON_EN, emotions_dict
 
 # log or refuse logging - starting keyboard
 log_button = InlineKeyboardButton(text=LEXICON_EN["log_button"],
@@ -38,114 +38,65 @@ basic_emotions_kb = InlineKeyboardMarkup(inline_keyboard=[
     [button_disgusted]
     ])
 
-# # builder deeper shades of emotions keyboard for ** happy **
-#
-# sub_emotions_happy_kb_builder = ReplyKeyboardBuilder()
-# sub_emotions_happy_buttons = []
-# for sub_emotion_key, sub_emotion_value in emotions_dict["happy"]["sub_emotions"].items():
-#     button = KeyboardButton(text=sub_emotion_value["label"])
-#     sub_emotions_happy_buttons.append(button)
-#
-# sub_emotions_happy_kb_builder.row(*sub_emotions_happy_buttons, width=3)
-#
-#
-# sub_emotions_happy_kb = sub_emotions_happy_kb_builder.as_markup(
-#     one_time_keyboard=True,
-#     resize_keyboard=True
-#     )
-#
-# # builder deeper shades of emotions keyboard for ** sad **
-#
-# sub_emotions_sad_kb_builder = ReplyKeyboardBuilder()
-# sub_emotions_sad_buttons = []
-# for sub_emotion_key, sub_emotion_value in emotions_dict["sad"]["sub_emotions"].items():
-#     button = KeyboardButton(text=sub_emotion_value["label"])
-#     sub_emotions_sad_buttons.append(button)
-#
-# sub_emotions_sad_kb_builder.row(*sub_emotions_sad_buttons, width=3)
-#
-#
-# sub_emotions_sad_kb = sub_emotions_sad_kb_builder.as_markup(
-#     one_time_keyboard=True,
-#     resize_keyboard=True
-#     )
-#
-# # builder deeper shades of emotions keyboard for ** angry **
-#
-# sub_emotions_angry_kb_builder = ReplyKeyboardBuilder()
-# sub_emotions_angry_buttons = []
-# for sub_emotion_key, sub_emotion_value in emotions_dict["angry"]["sub_emotions"].items():
-#     button = KeyboardButton(text=sub_emotion_value["label"])
-#     sub_emotions_angry_buttons.append(button)
-#
-# sub_emotions_angry_kb_builder.row(*sub_emotions_angry_buttons, width=3)
-#
-#
-# sub_emotions_angry_kb = sub_emotions_angry_kb_builder.as_markup(
-#     one_time_keyboard=True,
-#     resize_keyboard=True
-#     )
-#
-# # builder deeper shades of emotions keyboard for ** surprised **
-#
-# sub_emotions_surprised_kb_builder = ReplyKeyboardBuilder()
-# sub_emotions_surprised_buttons = []
-# for sub_emotion_key, sub_emotion_value in emotions_dict["surprised"]["sub_emotions"].items():
-#     button = KeyboardButton(text=sub_emotion_value["label"])
-#     sub_emotions_surprised_buttons.append(button)
-#
-# sub_emotions_surprised_kb_builder.row(*sub_emotions_surprised_buttons, width=3)
-#
-#
-# sub_emotions_surprised_kb = sub_emotions_surprised_kb_builder.as_markup(
-#     one_time_keyboard=True,
-#     resize_keyboard=True
-#     )
-#
-# # builder deeper shades of emotions keyboard for ** fearful **
-#
-# sub_emotions_fearful_kb_builder = ReplyKeyboardBuilder()
-# sub_emotions_fearful_buttons = []
-# for sub_emotion_key, sub_emotion_value in emotions_dict["fearful"]["sub_emotions"].items():
-#     button = KeyboardButton(text=sub_emotion_value["label"])
-#     sub_emotions_fearful_buttons.append(button)
-#
-# sub_emotions_fearful_kb_builder.row(*sub_emotions_fearful_buttons, width=3)
-#
-#
-# sub_emotions_fearful_kb = sub_emotions_fearful_kb_builder.as_markup(
-#     one_time_keyboard=True,
-#     resize_keyboard=True
-#     )
-#
-# # builder deeper shades of emotions keyboard for ** bad **
-#
-# sub_emotions_bad_kb_builder = ReplyKeyboardBuilder()
-# sub_emotions_bad_buttons = []
-# for sub_emotion_key, sub_emotion_value in emotions_dict["bad"]["sub_emotions"].items():
-#     button = KeyboardButton(text=sub_emotion_value["label"])
-#     sub_emotions_bad_buttons.append(button)
-#
-# sub_emotions_bad_kb_builder.row(*sub_emotions_bad_buttons, width=3)
-#
-#
-# sub_emotions_bad_kb = sub_emotions_bad_kb_builder.as_markup(
-#     one_time_keyboard=True,
-#     resize_keyboard=True
-#     )
-#
-# # builder deeper shades of emotions keyboard for ** disgusted **
-#
-# sub_emotions_disgusted_kb_builder = ReplyKeyboardBuilder()
-# sub_emotions_disgusted_buttons = []
-# for sub_emotion_key, sub_emotion_value in emotions_dict["disgusted"]["sub_emotions"].items():
-#     button = KeyboardButton(text=sub_emotion_value["label"])
-#     sub_emotions_disgusted_buttons.append(button)
-#
-# sub_emotions_disgusted_kb_builder.row(*sub_emotions_disgusted_buttons, width=3)
-#
-#
-# sub_emotions_disgusted_kb = sub_emotions_disgusted_kb_builder.as_markup(
-#     one_time_keyboard=True,
-#     resize_keyboard=True
-#     )
+# deeper shades of emotions keyboard for ** happy **
+
+sub_emotions_happy_buttons = []
+for sub_emotion_key, sub_emotion_value in emotions_dict["happy"]["sub_emotions"].items():
+    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
+    sub_emotions_happy_buttons.append(button)
+
+sub_emotions_happy_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_happy_buttons])
+
+# deeper shades of emotions keyboard for ** sad **
+
+sub_emotions_sad_buttons = []
+for sub_emotion_key, sub_emotion_value in emotions_dict["sad"]["sub_emotions"].items():
+    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
+    sub_emotions_sad_buttons.append(button)
+
+sub_emotions_sad_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_sad_buttons])
+
+# deeper shades of emotions keyboard for ** angry **
+
+sub_emotions_angry_buttons = []
+for sub_emotion_key, sub_emotion_value in emotions_dict["angry"]["sub_emotions"].items():
+    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
+    sub_emotions_angry_buttons.append(button)
+
+sub_emotions_angry_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_angry_buttons])
+
+# deeper shades of emotions keyboard for ** surprised **
+
+sub_emotions_surprised_buttons = []
+for sub_emotion_key, sub_emotion_value in emotions_dict["surprised"]["sub_emotions"].items():
+    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
+    sub_emotions_surprised_buttons.append(button)
+
+sub_emotions_surprised_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_surprised_buttons])
+
+# deeper shades of emotions keyboard for ** fearful **
+
+sub_emotions_fearful_buttons = []
+for sub_emotion_key, sub_emotion_value in emotions_dict["fearful"]["sub_emotions"].items():
+    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
+    sub_emotions_fearful_buttons.append(button)
+
+sub_emotions_fearful_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_fearful_buttons])
+
+# deeper shades of emotions keyboard for ** bad **
+
+sub_emotions_bad_buttons = []
+for sub_emotion_key, sub_emotion_value in emotions_dict["bad"]["sub_emotions"].items():
+    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
+    sub_emotions_bad_buttons.append(button)
+
+sub_emotions_bad_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_bad_buttons])
+
+# deeper shades of emotions keyboard for ** disgusted **
+
+sub_emotions_disgusted_buttons = []
+for sub_emotion_key, sub_emotion_value in emotions_dict["disgusted"]["sub_emotions"].items():
+    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
+    sub_emotions_disgusted_buttons.append(button)
+
+sub_emotions_disgusted_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_disgusted_buttons])

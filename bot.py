@@ -2,13 +2,17 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
-from aiogram.types import BotCommand
+from aiogram.fsm.storage.memory import MemoryStorage
 from config_data.config import Config, load_config
 from handlers import other_handlers, user_handlers
 from keyboards.set_menu import set_main_menu
 
 # initialize the logger
 logger = logging.getLogger(__name__)
+
+# initialize memory storage
+
+storage = MemoryStorage()
 
 
 # configure and launch the bot
