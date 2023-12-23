@@ -46,12 +46,12 @@ LEXICON_EN = {
     "respond_to_log": "Thank you for logging your emotions 🌈"
     }
 
-emotions_dict = {
+moods_dict = {
     # happy
     "happy": {
         "label": "Happy 🥳",
         "description": "Feeling joy and celebration.",
-        "sub_emotions": {
+        "sub_moods": {
             # Sub-emotions related to happiness
             "playful": {
                 "label": "Playful 😉",
@@ -96,7 +96,7 @@ emotions_dict = {
     "sad": {
         "label": "Sad 😢",
         "description": "Feeling sorrow or unhappiness.",
-        "sub_emotions": {
+        "sub_moods": {
             # Sub-emotions related to sadness
             "lonely": {
                 "label": "Lonely 😪",
@@ -129,7 +129,7 @@ emotions_dict = {
     "angry": {
         "label": "Angry 😡",
         "description": "Feeling strong displeasure or hostility.",
-        "sub_emotions": {
+        "sub_moods": {
             # Sub-emotions related to anger
             "let_down": {
                 "label": "Let Down 😒",
@@ -170,7 +170,7 @@ emotions_dict = {
     "surprised": {
         "label": "Surprised 😮",
         "description": "Caught off guard or amazed.",
-        "sub_emotions": {
+        "sub_moods": {
             # Sub-emotions related to surprise
             "startled": {
                 "label": "Startled 😧",
@@ -195,7 +195,7 @@ emotions_dict = {
     "fearful": {
         "label": "Fearful 😨",
         "description": "Feeling afraid or anxious.",
-        "sub_emotions": {
+        "sub_moods": {
             # Sub-emotions related to fear
             "scared": {
                 "label": "Scared 🙀",
@@ -228,7 +228,7 @@ emotions_dict = {
     "bad": {
         "label": "Bad 👎",
         "description": "Negative overall feeling or situation.",
-        "sub_emotions": {
+        "sub_moods": {
             # Sub-emotions related to feeling bad
             "bored": {
                 "label": "Bored 🥱",
@@ -253,7 +253,7 @@ emotions_dict = {
     "disgusted": {
         "label": "Disgusted 😬",
         "description": "Feeling strong aversion or revulsion.",
-        "sub_emotions": {
+        "sub_moods": {
             # Sub-emotions related to disgust
             "disapproving": {
                 "label": "Disapproving 😮‍💨",

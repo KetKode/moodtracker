@@ -1,7 +1,9 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from aiogram.filters import CommandStart
 
-from moodtracker.lexicon.lexicon_en import LEXICON_EN, emotions_dict
+from moodtracker.lexicon.lexicon_en import LEXICON_EN, moods_dict
+from moodtracker.utils.utils import happy_sub_moods, sad_sub_moods, angry_sub_moods, surprised_sub_moods, \
+    fearful_sub_moods, bad_sub_moods, disgusted_sub_moods
 
 # log or refuse logging - starting keyboard
 log_button = InlineKeyboardButton(text=LEXICON_EN["log_button"],
@@ -17,19 +19,19 @@ start_kb = InlineKeyboardMarkup(
     )
 
 # basic mood types keyboard
-button_happy = InlineKeyboardButton(text=emotions_dict["happy"]["label"],
+button_happy = InlineKeyboardButton(text=moods_dict["happy"]["label"],
                                     callback_data="happy_pressed")
-button_sad = InlineKeyboardButton(text=emotions_dict["sad"]["label"],
+button_sad = InlineKeyboardButton(text=moods_dict["sad"]["label"],
                                   callback_data="sad_pressed")
-button_angry = InlineKeyboardButton(text=emotions_dict["angry"]["label"],
+button_angry = InlineKeyboardButton(text=moods_dict["angry"]["label"],
                                     callback_data="angry_pressed")
-button_surprised = InlineKeyboardButton(text=emotions_dict["surprised"]["label"],
+button_surprised = InlineKeyboardButton(text=moods_dict["surprised"]["label"],
                                         callback_data="surprised_pressed")
-button_fearful = InlineKeyboardButton(text=emotions_dict["fearful"]["label"],
+button_fearful = InlineKeyboardButton(text=moods_dict["fearful"]["label"],
                                       callback_data="fearful_pressed")
-button_bad = InlineKeyboardButton(text=emotions_dict["bad"]["label"],
+button_bad = InlineKeyboardButton(text=moods_dict["bad"]["label"],
                                   callback_data="bad_pressed")
-button_disgusted = InlineKeyboardButton(text=emotions_dict["disgusted"]["label"],
+button_disgusted = InlineKeyboardButton(text=moods_dict["disgusted"]["label"],
                                         callback_data="disgusted_pressed")
 
 basic_emotions_kb = InlineKeyboardMarkup(inline_keyboard=[
@@ -40,63 +42,63 @@ basic_emotions_kb = InlineKeyboardMarkup(inline_keyboard=[
 
 # deeper shades of emotions keyboard for ** happy **
 
-sub_emotions_happy_buttons = []
-for sub_emotion_key, sub_emotion_value in emotions_dict["happy"]["sub_emotions"].items():
-    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
-    sub_emotions_happy_buttons.append(button)
+sub_moods_happy_buttons = []
+for sub_mood in happy_sub_moods:
+    button = InlineKeyboardButton(text=sub_mood, callback_data=f"{sub_mood}_pressed")
+    sub_moods_happy_buttons.append([button])
 
-sub_emotions_happy_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_happy_buttons])
+sub_moods_happy_kb = InlineKeyboardMarkup(inline_keyboard=sub_moods_happy_buttons)
 
 # deeper shades of emotions keyboard for ** sad **
 
-sub_emotions_sad_buttons = []
-for sub_emotion_key, sub_emotion_value in emotions_dict["sad"]["sub_emotions"].items():
-    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
-    sub_emotions_sad_buttons.append(button)
+sub_moods_sad_buttons = []
+for sub_mood in sad_sub_moods:
+    button = InlineKeyboardButton(text=sub_mood, callback_data=f"{sub_mood}_pressed")
+    sub_moods_sad_buttons.append([button])
 
-sub_emotions_sad_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_sad_buttons])
+sub_moods_sad_kb = InlineKeyboardMarkup(inline_keyboard=sub_moods_sad_buttons)
 
 # deeper shades of emotions keyboard for ** angry **
 
-sub_emotions_angry_buttons = []
-for sub_emotion_key, sub_emotion_value in emotions_dict["angry"]["sub_emotions"].items():
-    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
-    sub_emotions_angry_buttons.append(button)
+sub_moods_angry_buttons = []
+for sub_mood in sad_sub_moods:
+    button = InlineKeyboardButton(text=sub_mood, callback_data=f"{sub_mood}_pressed")
+    sub_moods_angry_buttons.append([button])
 
-sub_emotions_angry_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_angry_buttons])
+sub_moods_angry_kb = InlineKeyboardMarkup(inline_keyboard=sub_moods_angry_buttons)
 
 # deeper shades of emotions keyboard for ** surprised **
 
-sub_emotions_surprised_buttons = []
-for sub_emotion_key, sub_emotion_value in emotions_dict["surprised"]["sub_emotions"].items():
-    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
-    sub_emotions_surprised_buttons.append(button)
+sub_moods_surprised_buttons = []
+for sub_mood in sad_sub_moods:
+    button = InlineKeyboardButton(text=sub_mood, callback_data=f"{sub_mood}_pressed")
+    sub_moods_surprised_buttons.append([button])
 
-sub_emotions_surprised_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_surprised_buttons])
+sub_moods_surprised_kb = InlineKeyboardMarkup(inline_keyboard=sub_moods_surprised_buttons)
 
 # deeper shades of emotions keyboard for ** fearful **
 
-sub_emotions_fearful_buttons = []
-for sub_emotion_key, sub_emotion_value in emotions_dict["fearful"]["sub_emotions"].items():
-    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
-    sub_emotions_fearful_buttons.append(button)
+sub_moods_fearful_buttons = []
+for sub_mood in sad_sub_moods:
+    button = InlineKeyboardButton(text=sub_mood, callback_data=f"{sub_mood}_pressed")
+    sub_moods_fearful_buttons.append([button])
 
-sub_emotions_fearful_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_fearful_buttons])
+sub_moods_fearful_kb = InlineKeyboardMarkup(inline_keyboard=sub_moods_fearful_buttons)
 
 # deeper shades of emotions keyboard for ** bad **
 
-sub_emotions_bad_buttons = []
-for sub_emotion_key, sub_emotion_value in emotions_dict["bad"]["sub_emotions"].items():
-    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
-    sub_emotions_bad_buttons.append(button)
+sub_moods_bad_buttons = []
+for sub_mood in sad_sub_moods:
+    button = InlineKeyboardButton(text=sub_mood, callback_data=f"{sub_mood}_pressed")
+    sub_moods_bad_buttons.append([button])
 
-sub_emotions_bad_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_bad_buttons])
+sub_moods_bad_kb = InlineKeyboardMarkup(inline_keyboard=sub_moods_bad_buttons)
 
 # deeper shades of emotions keyboard for ** disgusted **
 
-sub_emotions_disgusted_buttons = []
-for sub_emotion_key, sub_emotion_value in emotions_dict["disgusted"]["sub_emotions"].items():
-    button = InlineKeyboardButton(text=sub_emotion_value["label"], callback_data=f"{sub_emotion_value['label']}_pressed")
-    sub_emotions_disgusted_buttons.append(button)
+sub_moods_disgusted_buttons = []
+for sub_mood in sad_sub_moods:
+    button = InlineKeyboardButton(text=sub_mood, callback_data=f"{sub_mood}_pressed")
+    sub_moods_disgusted_buttons.append([button])
 
-sub_emotions_disgusted_kb = InlineKeyboardMarkup(inline_keyboard=[sub_emotions_disgusted_buttons])
+sub_moods_disgusted_kb = InlineKeyboardMarkup(inline_keyboard=sub_moods_disgusted_buttons)
