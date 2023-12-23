@@ -1,5 +1,5 @@
 LEXICON_EN = {
-    "/start": "🌈 <b>Welcome to Mood Tracker Journal - Your Personal Mood Tracker!</b> 🌈"
+    "/start": "🌈 <b>Welcome to Mood Tracker Journal - Your Personal Mood Tracker!</b>"
               "\n\n"
               "Hey there! I'm here to help you keep track of your moods and emotions. "
               "Whether you're feeling ecstatic, stressed, or somewhere in between, I'm here to listen. 🤖✨\n"
@@ -30,6 +30,8 @@ LEXICON_EN = {
                    "See you tomorrow!",
 
     "specify_emotion": "Choose one of the following shades of emotions to specify how you feel 💫",
+
+    "respond_to_log": "Thank you for logging your emotions 🌈"
     }
 
 emotions_dict = {
