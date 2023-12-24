@@ -61,7 +61,7 @@ sub_moods_sad_kb = InlineKeyboardMarkup(inline_keyboard=sub_moods_sad_buttons)
 # deeper shades of emotions keyboard for ** angry **
 
 sub_moods_angry_buttons = []
-for sub_mood in sad_sub_moods:
+for sub_mood in angry_sub_moods:
     button = InlineKeyboardButton(text=sub_mood, callback_data=f"{sub_mood}_pressed")
     sub_moods_angry_buttons.append([button])
 

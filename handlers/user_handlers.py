@@ -70,7 +70,6 @@ async def process_happy_selection(callback: CallbackQuery, state: FSMContext):
     sub_mood_value = next(sub_mood for sub_mood in happy_sub_moods if f"{sub_mood}_pressed" == callback.data)
     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value)
     session.add(new_mood)
-    print("Associated User:", new_mood.user.username)
     session.commit()
     await callback.message.reply(text=LEXICON_EN["respond_to_log"])
     await state.clear()
@@ -81,6 +80,7 @@ async def process_happy_selection(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_basic_mood,
     F.data == "sad_pressed")
 async def process_sad_basic(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user (telegram_user_id=callback.from_user.id, username=callback.from_user.username)
     await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
                                      reply_markup=sub_moods_sad_kb)
     await state.set_state(ChooseMood.choosing_sub_mood)
@@ -91,6 +91,12 @@ async def process_sad_basic(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_sub_mood,
     F.data.in_([f"{sub_mood}_pressed" for sub_mood in sad_sub_moods]))
 async def process_sad_selection(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
+    mood_value = moods_dict["sad"]["label"]
+    sub_mood_value = next(sub_mood for sub_mood in sad_sub_moods if f"{sub_mood}_pressed" == callback.data)
+    new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value)
+    session.add(new_mood)
+    session.commit()
     await callback.message.reply(text=LEXICON_EN["respond_to_log"])
     await state.clear()
 
@@ -100,6 +106,7 @@ async def process_sad_selection(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_basic_mood,
     F.data == "angry_pressed")
 async def process_angry_basic(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
     await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
                                      reply_markup=sub_moods_angry_kb)
     await state.set_state(ChooseMood.choosing_sub_mood)
@@ -110,6 +117,12 @@ async def process_angry_basic(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_sub_mood,
     F.data.in_([f"{sub_mood}_pressed" for sub_mood in angry_sub_moods]))
 async def process_angry_selection(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
+    mood_value = moods_dict["angry"]["label"]
+    sub_mood_value = next(sub_mood for sub_mood in angry_sub_moods if f"{sub_mood}_pressed" == callback.data)
+    new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value)
+    session.add(new_mood)
+    session.commit()
     await callback.message.reply(text=LEXICON_EN["respond_to_log"])
     await state.clear()
 
@@ -119,6 +132,7 @@ async def process_angry_selection(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_basic_mood,
     F.data == "surprised_pressed")
 async def process_surprised_basic(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
     await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
                                      reply_markup=sub_moods_surprised_kb)
     await state.set_state(ChooseMood.choosing_sub_mood)
@@ -129,6 +143,12 @@ async def process_surprised_basic(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_sub_mood,
     F.data.in_([f"{sub_mood}_pressed" for sub_mood in surprised_sub_moods]))
 async def process_surprised_selection(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
+    mood_value = moods_dict["surprised"]["label"]
+    sub_mood_value = next(sub_mood for sub_mood in surprised_sub_moods if f"{sub_mood}_pressed" == callback.data)
+    new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value)
+    session.add(new_mood)
+    session.commit()
     await callback.message.reply(text=LEXICON_EN["respond_to_log"])
     await state.clear()
 
@@ -138,6 +158,7 @@ async def process_surprised_selection(callback: CallbackQuery, state: FSMContext
     ChooseMood.choosing_basic_mood,
     F.data == "fearful_pressed")
 async def process_fearful_basic(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
     await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
                                      reply_markup=sub_moods_fearful_kb)
     await state.set_state(ChooseMood.choosing_sub_mood)
@@ -148,6 +169,12 @@ async def process_fearful_basic(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_sub_mood,
     F.data.in_([f"{sub_mood}_pressed" for sub_mood in fearful_sub_moods]))
 async def process_fearful_selection(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
+    mood_value = moods_dict["fearful"]["label"]
+    sub_mood_value = next(sub_mood for sub_mood in fearful_sub_moods if f"{sub_mood}_pressed" == callback.data)
+    new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value)
+    session.add(new_mood)
+    session.commit()
     await callback.message.reply(text=LEXICON_EN["respond_to_log"])
     await state.clear()
 
@@ -157,6 +184,7 @@ async def process_fearful_selection(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_basic_mood,
     F.data == "bad_pressed")
 async def process_bad_basic(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
     await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
                                      reply_markup=sub_moods_bad_kb)
     await state.set_state(ChooseMood.choosing_sub_mood)
@@ -167,6 +195,12 @@ async def process_bad_basic(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_sub_mood,
     F.data.in_([f"{sub_mood}_pressed" for sub_mood in bad_sub_moods]))
 async def process_bad_selection(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
+    mood_value = moods_dict["bad"]["label"]
+    sub_mood_value = next(sub_mood for sub_mood in bad_sub_moods if f"{sub_mood}_pressed" == callback.data)
+    new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value)
+    session.add(new_mood)
+    session.commit()
     await callback.message.reply(text=LEXICON_EN["respond_to_log"])
     await state.clear()
 
@@ -176,6 +210,7 @@ async def process_bad_selection(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_basic_mood,
     F.data == "disgusted_pressed")
 async def process_disgusted_basic(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
     await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
                                      reply_markup=sub_moods_disgusted_kb)
     await state.set_state(ChooseMood.choosing_sub_mood)
@@ -186,5 +221,11 @@ async def process_disgusted_basic(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_sub_mood,
     F.data.in_([f"{sub_mood}_pressed" for sub_mood in disgusted_sub_moods]))
 async def process_disgusted_selection(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
+    mood_value = moods_dict["disgusted"]["label"]
+    sub_mood_value = next(sub_mood for sub_mood in disgusted_sub_moods if f"{sub_mood}_pressed" == callback.data)
+    new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value)
+    session.add(new_mood)
+    session.commit()
     await callback.message.reply(text=LEXICON_EN["respond_to_log"])
     await state.clear()
