@@ -1,9 +1,6 @@
-from sqlalchemy import create_engine, Column, Integer, String, Sequence, ForeignKey
+from sqlalchemy import Column, Integer, String, Sequence, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
-from moodtracker.config_data.config import DATABASE, POSTGRES_USER, POSTGRES_PASSWORD, ip
-
-DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{ip}/{DATABASE}"
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
@@ -29,18 +26,11 @@ class Mood(Base):
     user = relationship("User", back_populates="moods")
 
 
-engine = create_engine(DATABASE_URL, echo=True)
-
-Base.metadata.create_all(bind=engine)
-
-Session = sessionmaker(bind=engine)
-session = Session()
-
-# example
-new_user = User(user_id=1, username="testuser")
-session.add(new_user)
-session.commit()
-
-new_mood = Mood(user_id=1, mood_value="Happy", sub_mood_value="Content", note="Feeling good today")
-session.add(new_mood)
-session.commit()
+# # example
+# new_user = User(user_id=1, username="testuser")
+# session.add(new_user)
+# session.commit()
+#
+# new_mood = Mood(user_id=1, mood_value="Happy", sub_mood_value="Content", note="Feeling good today")
+# session.add(new_mood)
+# session.commit()

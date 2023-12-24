@@ -8,7 +8,9 @@ from moodtracker.keyboards.keyboards import start_kb, basic_emotions_kb, sub_moo
     sub_moods_sad_kb
 from moodtracker.lexicon.lexicon_en import LEXICON_EN, moods_dict
 from moodtracker.utils.utils import happy_sub_moods, sad_sub_moods, angry_sub_moods, surprised_sub_moods, \
-    fearful_sub_moods, bad_sub_moods, disgusted_sub_moods
+    fearful_sub_moods, bad_sub_moods, disgusted_sub_moods, get_or_create_user
+from moodtracker.models.models import User, Mood
+from moodtracker.bot import session
 
 router = Router()
 
@@ -19,10 +21,10 @@ class ChooseMood(StatesGroup):
     choosing_sub_mood = State()
 
 
-
 # handle start command
 @router.message(CommandStart())
 async def process_start_command(message: Message, state: FSMContext):
+    user = get_or_create_user(message.from_user.id, message.from_user.username)
     await message.answer(text=LEXICON_EN["/start"], reply_markup=start_kb)
     await state.set_state(ChooseMood.choosing_action)
 

@@ -1,4 +1,6 @@
 from moodtracker.lexicon.lexicon_en import moods_dict
+from moodtracker.models.models import User, Mood
+from moodtracker.bot import session
 
 happy_sub_moods = ['Playful 😉', 'Content 😌', 'Interested 🤓', 'Proud 🥹', 'Accepted 🤗', 'Powerful 🔋',
                    'Peaceful ☮️', 'Trusting 🤫', 'Optimistic 🍀']
@@ -15,3 +17,13 @@ disgusted_sub_moods = ['Disapproving 😮\u200d💨', 'Disappointed 🫠', 'Awfu
 #         happy_sub_moods.append(sub_data["label"])
 #
 # print(happy_sub_moods)
+
+
+# get or create a user
+def get_or_create_user(user_id, username):
+    user = session.query(User).filter(User.user_id == user_id).first()
+    if not user:
+        user = User(user_id=user_id, username=username)
+        session.add(user)
+        session.commit()
+    return user
