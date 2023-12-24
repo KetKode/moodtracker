@@ -19,6 +19,7 @@ class ChooseMood(StatesGroup):
     choosing_sub_mood = State()
 
 
+
 # handle start command
 @router.message(CommandStart())
 async def process_start_command(message: Message, state: FSMContext):
