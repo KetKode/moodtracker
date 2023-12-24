@@ -20,10 +20,11 @@ disgusted_sub_moods = ['Disapproving 😮\u200d💨', 'Disappointed 🫠', 'Awfu
 
 
 # get or create a user
-def get_or_create_user(user_id, username):
-    user = session.query(User).filter(User.user_id == user_id).first()
+def get_or_create_user(telegram_user_id, username):
+    user = session.query(User).filter(User.telegram_user_id == telegram_user_id).first()
     if not user:
-        user = User(user_id=user_id, username=username)
-        session.add(user)
-        session.commit()
+        # Start a transaction explicitly
+        with session.begin():
+            user = User(telegram_user_id=telegram_user_id, username=username)
+            session.add(user)
     return user

@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Sequence, ForeignKey
+from sqlalchemy import Column, Integer, String, Sequence, ForeignKey, DateTime, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+
 
 Base = declarative_base()
 
@@ -9,7 +10,7 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, Sequence("user_id_seq"), primary_key=True)
-    user_id = Column(Integer)
+    telegram_user_id = Column(Integer, unique=True)
     username = Column(String(50), unique=True)
     moods = relationship("Mood", back_populates="user")
 
@@ -18,9 +19,10 @@ class Mood(Base):
     __tablename__ = "moods"
 
     id = Column(Integer, Sequence("mood_id_seq"), primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    mood_value = Column(String(50))
-    sub_mood_value = Column(String(50))
+    telegram_user_id = Column(ForeignKey("users.telegram_user_id"))
+    mood_value = Column(String(50), nullable=True)
+    sub_mood_value = Column(String(50), nullable=True)
+    date_added = Column(DateTime, server_default=func.now())
     note = Column(String(255), nullable=True)
 
     user = relationship("User", back_populates="moods")

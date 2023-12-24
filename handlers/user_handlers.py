@@ -24,7 +24,8 @@ class ChooseMood(StatesGroup):
 # handle start command
 @router.message(CommandStart())
 async def process_start_command(message: Message, state: FSMContext):
-    user = get_or_create_user(message.from_user.id, message.from_user.username)
+    user = get_or_create_user(telegram_user_id=message.from_user.id, username=message.from_user.username)
+    print(user.telegram_user_id, user.username)
     await message.answer(text=LEXICON_EN["/start"], reply_markup=start_kb)
     await state.set_state(ChooseMood.choosing_action)
 
@@ -53,6 +54,7 @@ async def process_refuse_request(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_basic_mood,
     F.data == "happy_pressed")
 async def process_happy_basic(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
     await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
                                      reply_markup=sub_moods_happy_kb)
     await state.set_state(ChooseMood.choosing_sub_mood)
@@ -63,6 +65,13 @@ async def process_happy_basic(callback: CallbackQuery, state: FSMContext):
     ChooseMood.choosing_sub_mood,
     F.data.in_([f"{sub_mood}_pressed" for sub_mood in happy_sub_moods]))
 async def process_happy_selection(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
+    mood_value = moods_dict["happy"]["label"]
+    sub_mood_value = next(sub_mood for sub_mood in happy_sub_moods if f"{sub_mood}_pressed" == callback.data)
+    new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value)
+    session.add(new_mood)
+    print("Associated User:", new_mood.user.username)
+    session.commit()
     await callback.message.reply(text=LEXICON_EN["respond_to_log"])
     await state.clear()
 
