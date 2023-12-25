@@ -6,7 +6,7 @@ from moodtracker.models.models import User, Mood
 
 load_dotenv()
 
-PIXELA_BASE_URL = "https://pixe.la/v1/users/"
+PIXELA_BASE_URL = "https://pixe.la/v1/users"
 PIXELA_TOKEN = str(os.getenv("PIXELA_TOKEN"))
 
 
@@ -23,7 +23,7 @@ def create_user(username):
     response = requests.get(user_url, json=payload)
 
     if response.status_code == 200:
-        print(f"User '{username}' already exists")
+        print(f"User '{username}' created successfully.")
     else:
         # If the user does not exist, attempt to create them
 
@@ -37,7 +37,7 @@ def create_user(username):
 
 
 def delete_user(username):
-    user_url = f"{PIXELA_BASE_URL}{username}"
+    user_url = f"{PIXELA_BASE_URL}/{username}"
 
     headers = {
         "X-USER-TOKEN": PIXELA_TOKEN
@@ -55,25 +55,23 @@ def delete_user(username):
 
 
 def create_mood_graph(username):
-    graph_id = f"{username}_mood"
-    graph_url = f"{PIXELA_BASE_URL}{username}/graphs/{graph_id}"
+    graph_url = f"{PIXELA_BASE_URL}/{username}/graphs"
 
     headers = {
         "X-USER-TOKEN": PIXELA_TOKEN
         }
 
-    payload = {
-        "id": graph_id,
+    graph_config = {
+        "id": "moodgraph1",
         "name": "My Mood Journal",
         "unit": "mood",
         "type": "int",
         "color": "ajisai",  # default purple
         }
 
-    response = requests.post(graph_url, json=payload, headers=headers)
+    response = requests.post(graph_url, json=graph_config, headers=headers)
 
     if response.status_code == 200:
-        print(f"Graph '{graph_id}' created for user '{username}'")
+        print(f"Graph '{graph_url}/moodgraph1' created for user '{username}'")
     else:
-        print(f"Failed to create graph '{graph_id}' for user '{username}'. Status code: {response.status_code}")
-
+        print(f"Failed to create graph '{graph_url}/moodgraph1' for user '{username}'. Status code: {response.status_code}")

@@ -13,6 +13,8 @@ class User(Base):
     telegram_user_id = Column(Integer, unique=True)
     username = Column(String(50), unique=True)
     moods = relationship("Mood", back_populates="user")
+    pixela_user_url = Column(String(100), unique=True)
+    pixela_graph_url = Column(String(100), unique=True)
 
 
 class Mood(Base):
