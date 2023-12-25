@@ -25,7 +25,6 @@ class ChooseMood(StatesGroup):
 @router.message(CommandStart())
 async def process_start_command(message: Message, state: FSMContext):
     user = get_or_create_user(telegram_user_id=message.from_user.id, username=message.from_user.username)
-    print(user.telegram_user_id, user.username)
     await message.answer(text=LEXICON_EN["/start"], reply_markup=start_kb)
     await state.set_state(ChooseMood.choosing_action)
 

@@ -1,6 +1,7 @@
 from moodtracker.lexicon.lexicon_en import moods_dict
 from moodtracker.models.models import User, Mood
 from moodtracker.bot import session
+from moodtracker.services.services import create_user, create_mood_graph, delete_user
 
 happy_sub_moods = ['Playful 😉', 'Content 😌', 'Interested 🤓', 'Proud 🥹', 'Accepted 🤗', 'Powerful 🔋',
                    'Peaceful ☮️', 'Trusting 🤫', 'Optimistic 🍀']
@@ -23,8 +24,9 @@ disgusted_sub_moods = ['Disapproving 😮\u200d💨', 'Disappointed 🫠', 'Awfu
 def get_or_create_user(telegram_user_id, username):
     user = session.query(User).filter(User.telegram_user_id == telegram_user_id).first()
     if not user:
-        # Start a transaction explicitly
-        with session.begin():
-            user = User(telegram_user_id=telegram_user_id, username=username)
-            session.add(user)
+        user = User(telegram_user_id=telegram_user_id, username=username)
+        create_user(username)
+        create_mood_graph(username)
+        session.add(user)
+        session.commit()
     return user
