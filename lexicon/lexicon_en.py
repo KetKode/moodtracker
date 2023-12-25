@@ -1,3 +1,5 @@
+import re
+
 COMMANDS = {
     "/help": "See available commands",
 
@@ -40,11 +42,14 @@ LEXICON_EN = {
 
     "user_refuse": "I understand and respect your wish not to share your mood log today 🦋"
                    "See you tomorrow!",
+    "start_day_type": "Let's start by grading your day overall 🫧",
 
     "specify_emotion": "Choose one of the following shades of emotions to specify how you feel 💫",
 
     "respond_to_log": "Thank you for logging your emotions 🌈"
     }
+
+day_types = ["Excellent! 🎉", "Good 😻", "Normal 🤷🏻‍♀️", "Bad 🙅🏻‍♀️"]
 
 moods_dict = {
     # happy

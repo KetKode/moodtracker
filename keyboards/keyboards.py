@@ -1,9 +1,18 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from aiogram.filters import CommandStart
 
-from moodtracker.lexicon.lexicon_en import LEXICON_EN, moods_dict
+from moodtracker.lexicon.lexicon_en import LEXICON_EN, moods_dict, day_types
 from moodtracker.utils.utils import happy_sub_moods, sad_sub_moods, angry_sub_moods, surprised_sub_moods, \
     fearful_sub_moods, bad_sub_moods, disgusted_sub_moods
+
+# start logging - day types
+
+day_types_buttons = []
+for day_type in day_types:
+    button = InlineKeyboardButton(text=day_type, callback_data=f"{day_type}_pressed")
+    day_types_buttons.append([button])
+
+day_types_kb = InlineKeyboardMarkup(inline_keyboard=day_types_buttons)
 
 # log or refuse logging - starting keyboard
 log_button = InlineKeyboardButton(text=LEXICON_EN["log_button"],

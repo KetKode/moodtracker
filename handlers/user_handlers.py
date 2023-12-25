@@ -5,8 +5,8 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from moodtracker.keyboards.keyboards import start_kb, basic_emotions_kb, sub_moods_happy_kb, sub_moods_fearful_kb,\
     sub_moods_disgusted_kb, sub_moods_surprised_kb, sub_moods_bad_kb, sub_moods_angry_kb, \
-    sub_moods_sad_kb
-from moodtracker.lexicon.lexicon_en import LEXICON_EN, moods_dict
+    sub_moods_sad_kb, day_types_kb
+from moodtracker.lexicon.lexicon_en import LEXICON_EN, moods_dict, day_types
 from moodtracker.utils.utils import happy_sub_moods, sad_sub_moods, angry_sub_moods, surprised_sub_moods, \
     fearful_sub_moods, bad_sub_moods, disgusted_sub_moods, get_or_create_user
 from moodtracker.models.models import User, Mood
@@ -17,6 +17,7 @@ router = Router()
 
 class ChooseMood(StatesGroup):
     choosing_action = State()
+    choosing_day_type = State()
     choosing_basic_mood = State()
     choosing_sub_mood = State()
 
@@ -36,9 +37,9 @@ async def process_start_command(message: Message, state: FSMContext):
     ChooseMood.choosing_action,
     F.data == "log_callback")
 async def process_log_request(callback: CallbackQuery, state: FSMContext):
-    await callback.message.edit_text(text=LEXICON_EN["/log"],
-                                     reply_markup=basic_emotions_kb)
-    await state.set_state(ChooseMood.choosing_basic_mood)
+    await callback.message.edit_text(text=LEXICON_EN["start_day_type"],
+                                     reply_markup=day_types_kb)
+    await state.set_state(ChooseMood.choosing_day_type)
 
 
 # handle "refuse button"
@@ -50,12 +51,28 @@ async def process_refuse_request(callback: CallbackQuery, state: FSMContext):
     await state.clear()
 
 
+# handle choosing day type
+@router.callback_query(
+    ChooseMood.choosing_day_type,
+    F.data.in_([f"{day_type}_pressed" for day_type in day_types])
+    )
+async def process_day_type_answer(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
+    day_type = next(day_type for day_type in day_types if f"{day_type}_pressed" == callback.data)
+    new_day_type = Mood(user=user, day_type=day_type)
+    session.add(new_day_type)
+    session.commit()
+    await callback.message.edit_text(text=LEXICON_EN["/log"], reply_markup=basic_emotions_kb)
+    await state.set_state(ChooseMood.choosing_basic_mood)
+
+
 # 1 handle choosing **happy** as a basic emotion
 @router.callback_query(
     ChooseMood.choosing_basic_mood,
     F.data == "happy_pressed")
 async def process_happy_basic(callback: CallbackQuery, state: FSMContext):
     user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
+
     await callback.message.edit_text(text=LEXICON_EN["specify_emotion"],
                                      reply_markup=sub_moods_happy_kb)
     await state.set_state(ChooseMood.choosing_sub_mood)

@@ -22,6 +22,7 @@ class Mood(Base):
 
     id = Column(Integer, Sequence("mood_id_seq"), primary_key=True)
     telegram_user_id = Column(ForeignKey("users.telegram_user_id"))
+    day_type = Column(String(50), nullable=True)
     mood_value = Column(String(50), nullable=True)
     sub_mood_value = Column(String(50), nullable=True)
     date_added = Column(DateTime, server_default=func.now())

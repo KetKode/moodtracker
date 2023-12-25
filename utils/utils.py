@@ -28,7 +28,7 @@ def get_or_create_user(telegram_user_id, username):
         user = User(telegram_user_id=telegram_user_id, username=username)
 
         required_pixela_user_url = f"https://pixe.la/v1/users/{username}"
-        pixela_user_url = session.query (User).filter (User.pixela_user_url == required_pixela_user_url).first ()
+        pixela_user_url = session.query(User).filter(User.pixela_user_url == required_pixela_user_url).first()
 
         if not pixela_user_url:
             create_user(username)
