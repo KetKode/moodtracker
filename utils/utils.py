@@ -22,17 +22,21 @@ disgusted_sub_moods = ['Disapproving 😮\u200d💨', 'Disappointed 🫠', 'Awfu
 
 # get or create a user
 def get_or_create_user(telegram_user_id, username):
-    user = session.query(User).filter(User.telegram_user_id == telegram_user_id).first()
+
+    lowercase_username = username.lower()
+
+    user = session.query(User).filter(User.telegram_user_id == telegram_user_id,
+                                      User.username == lowercase_username).first()
 
     if not user:
-        user = User(telegram_user_id=telegram_user_id, username=username)
+        user = User(telegram_user_id=telegram_user_id, username=lowercase_username)
 
         required_pixela_user_url = f"https://pixe.la/v1/users/{username}"
         pixela_user_url = session.query(User).filter(User.pixela_user_url == required_pixela_user_url).first()
 
         if not pixela_user_url:
-            create_user(username)
-            create_mood_graph(username)
+            create_user(lowercase_username)
+            create_mood_graph(lowercase_username)
 
         user.pixela_user_url = required_pixela_user_url
         user.pixela_graph_url = f"https://pixe.la/v1/users/{username}/graphs/moodgraph1"
