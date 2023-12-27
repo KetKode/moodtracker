@@ -115,7 +115,15 @@ async def process_happy_selection(callback: CallbackQuery, state: FSMContext):
     post_a_pixel(username=user.username, quantity=day_mood_quantity)
     session.add(new_mood)
     session.commit()
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+
+    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
+    end_kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [graph_button]
+            ]
+        )
+
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
     await state.clear()
 
 
@@ -141,11 +149,22 @@ async def process_sad_selection(callback: CallbackQuery, state: FSMContext):
 
     data = await state.get_data()
     day_type = data.get('day_type', '')
+    day_mood_quantity = data.get('day_mood_quantity', '')
 
     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type)
+
+    post_a_pixel(username=user.username, quantity=day_mood_quantity)
     session.add(new_mood)
     session.commit()
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+
+    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
+    end_kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [graph_button]
+            ]
+        )
+
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
     await state.clear()
 
 
@@ -168,13 +187,26 @@ async def process_angry_selection(callback: CallbackQuery, state: FSMContext):
     user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
     mood_value = moods_dict["angry"]["label"]
     sub_mood_value = next(sub_mood for sub_mood in angry_sub_moods if f"{sub_mood}_pressed" == callback.data)
+
     data = await state.get_data()
     day_type = data.get('day_type', '')
+    day_mood_quantity = data.get('day_mood_quantity', '')
 
     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type)
+
+    post_a_pixel(username=user.username, quantity=day_mood_quantity)
+
     session.add(new_mood)
     session.commit()
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+
+    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
+    end_kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [graph_button]
+            ]
+        )
+
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
     await state.clear()
 
 
@@ -200,11 +232,23 @@ async def process_surprised_selection(callback: CallbackQuery, state: FSMContext
 
     data = await state.get_data()
     day_type = data.get('day_type', '')
+    day_mood_quantity = data.get('day_mood_quantity', '')
 
     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type)
+
+    post_a_pixel(username=user.username, quantity=day_mood_quantity)
+
     session.add(new_mood)
     session.commit()
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+
+    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
+    end_kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [graph_button]
+            ]
+        )
+
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
     await state.clear()
 
 
@@ -227,13 +271,26 @@ async def process_fearful_selection(callback: CallbackQuery, state: FSMContext):
     user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
     mood_value = moods_dict["fearful"]["label"]
     sub_mood_value = next(sub_mood for sub_mood in fearful_sub_moods if f"{sub_mood}_pressed" == callback.data)
+
     data = await state.get_data()
     day_type = data.get('day_type', '')
+    day_mood_quantity = data.get('day_mood_quantity', '')
 
     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type)
+
+    post_a_pixel(username=user.username, quantity=day_mood_quantity)
+
     session.add(new_mood)
     session.commit()
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+
+    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
+    end_kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [graph_button]
+            ]
+        )
+
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
     await state.clear()
 
 
@@ -256,13 +313,26 @@ async def process_bad_selection(callback: CallbackQuery, state: FSMContext):
     user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
     mood_value = moods_dict["bad"]["label"]
     sub_mood_value = next(sub_mood for sub_mood in bad_sub_moods if f"{sub_mood}_pressed" == callback.data)
+
     data = await state.get_data()
     day_type = data.get('day_type', '')
+    day_mood_quantity = data.get('day_mood_quantity', '')
 
     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type)
+
+    post_a_pixel(username=user.username, quantity=day_mood_quantity)
+
     session.add(new_mood)
     session.commit()
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+
+    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
+    end_kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [graph_button]
+            ]
+        )
+
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
     await state.clear()
 
 
@@ -287,9 +357,21 @@ async def process_disgusted_selection(callback: CallbackQuery, state: FSMContext
     sub_mood_value = next(sub_mood for sub_mood in disgusted_sub_moods if f"{sub_mood}_pressed" == callback.data)
     data = await state.get_data()
     day_type = data.get('day_type', '')
+    day_mood_quantity = data.get('day_mood_quantity', '')
 
     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type)
+
+    post_a_pixel(username=user.username, quantity=day_mood_quantity)
+
     session.add(new_mood)
     session.commit()
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"])
+
+    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
+    end_kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [graph_button]
+            ]
+        )
+
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
     await state.clear()
