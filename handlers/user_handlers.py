@@ -3,7 +3,7 @@ from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.fsm.state import default_state, State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
-from moodtracker.keyboards.keyboards import start_kb, basic_emotions_kb, sub_moods_happy_kb, sub_moods_fearful_kb,\
+from moodtracker.keyboards.keyboards import basic_emotions_kb, sub_moods_happy_kb, sub_moods_fearful_kb,\
     sub_moods_disgusted_kb, sub_moods_surprised_kb, sub_moods_bad_kb, sub_moods_angry_kb, \
     sub_moods_sad_kb, day_types_kb
 from moodtracker.lexicon.lexicon_en import LEXICON_EN, moods_dict, day_types
@@ -11,6 +11,7 @@ from moodtracker.utils.utils import happy_sub_moods, sad_sub_moods, angry_sub_mo
     fearful_sub_moods, bad_sub_moods, disgusted_sub_moods, get_or_create_user
 from moodtracker.models.models import User, Mood
 from moodtracker.bot import session
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from moodtracker.services.services import post_a_pixel
 
 router = Router()
@@ -27,6 +28,22 @@ class ChooseMood(StatesGroup):
 @router.message(CommandStart())
 async def process_start_command(message: Message, state: FSMContext):
     user = get_or_create_user(telegram_user_id=message.from_user.id, username=message.from_user.username)
+
+    graph_url = f"https://pixe.la/v1/users/{user.username}/graphs/moodgraph1"
+
+    # log or refuse logging - starting keyboard
+    log_button = InlineKeyboardButton(text=LEXICON_EN["log_button"], callback_data="log_callback")
+    refuse_button = InlineKeyboardButton(text=LEXICON_EN["refuse_button"], callback_data="refuse_callback")
+
+    # an inline button with the dynamically generated URL for the mood graph
+    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=graph_url)
+    start_kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [log_button],
+            [refuse_button],
+            [graph_button]
+            ]
+        )
     await message.answer(text=f"{LEXICON_EN['/start']}\n\n"
                               f"<b>here is the link to your mood graph:</b>\n"
                               f"https://pixe.la/v1/users/{user.username}/graphs/moodgraph1", reply_markup=start_kb)

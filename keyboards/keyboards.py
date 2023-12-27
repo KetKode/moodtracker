@@ -4,6 +4,10 @@ from aiogram.filters import CommandStart
 from moodtracker.lexicon.lexicon_en import LEXICON_EN, moods_dict, day_types
 from moodtracker.utils.utils import happy_sub_moods, sad_sub_moods, angry_sub_moods, surprised_sub_moods, \
     fearful_sub_moods, bad_sub_moods, disgusted_sub_moods
+from moodtracker.services.services import get_graph
+
+
+from moodtracker.models.models import User
 
 # start logging - day types
 button_excellent_day = InlineKeyboardButton(text=day_types["excellent"]["label"],
@@ -22,18 +26,6 @@ day_types_kb = InlineKeyboardMarkup(inline_keyboard=[
     [button_bad_day]
     ])
 
-# log or refuse logging - starting keyboard
-log_button = InlineKeyboardButton(text=LEXICON_EN["log_button"],
-                                  callback_data="log_callback")
-refuse_button = InlineKeyboardButton(text=LEXICON_EN["refuse_button"],
-                                     callback_data="refuse_callback")
-
-start_kb = InlineKeyboardMarkup(
-    inline_keyboard=[
-        [log_button],
-        [refuse_button]
-        ]
-    )
 
 # basic mood types keyboard
 button_happy = InlineKeyboardButton(text=moods_dict["happy"]["label"],

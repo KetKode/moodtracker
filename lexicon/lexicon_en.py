@@ -31,7 +31,7 @@ LEXICON_EN = {
 
     "/log": "Tell me how you're feeling today, and I'll log it for you 🪁",
 
-    "/history": "View your mood history and trends. Please select the period of time you want to view.",
+    "/graph": "View your mood graph 👾",
 
     "/insights": "Get insights into your mood patterns. Predict what can happen with your mood tomorrow.",
 
