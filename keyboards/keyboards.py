@@ -6,13 +6,21 @@ from moodtracker.utils.utils import happy_sub_moods, sad_sub_moods, angry_sub_mo
     fearful_sub_moods, bad_sub_moods, disgusted_sub_moods
 
 # start logging - day types
+button_excellent_day = InlineKeyboardButton(text=day_types["excellent"]["label"],
+                                            callback_data="excellent_pressed")
+button_good_day = InlineKeyboardButton(text=day_types["good"]["label"],
+                                       callback_data="good_pressed")
+button_normal_day = InlineKeyboardButton(text=day_types["normal"]["label"],
+                                         callback_data="normal_pressed")
+button_bad_day = InlineKeyboardButton(text=day_types["bad"]["label"],
+                                      callback_data="bad_pressed")
 
-day_types_buttons = []
-for day_type in day_types:
-    button = InlineKeyboardButton(text=day_type, callback_data=f"{day_type}_pressed")
-    day_types_buttons.append([button])
-
-day_types_kb = InlineKeyboardMarkup(inline_keyboard=day_types_buttons)
+day_types_kb = InlineKeyboardMarkup(inline_keyboard=[
+    [button_excellent_day],
+    [button_good_day],
+    [button_normal_day],
+    [button_bad_day]
+    ])
 
 # log or refuse logging - starting keyboard
 log_button = InlineKeyboardButton(text=LEXICON_EN["log_button"],

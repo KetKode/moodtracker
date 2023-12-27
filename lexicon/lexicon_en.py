@@ -49,7 +49,27 @@ LEXICON_EN = {
     "respond_to_log": "Thank you for logging your emotions 🌈"
     }
 
-day_types = ["Excellent! 🎉", "Good 😻", "Normal 🤷🏻‍♀️", "Bad 🙅🏻‍♀️"]
+day_types = {
+    "excellent": {
+        "label": "Excellent! 🎉",
+        "quantity": 10
+        },
+
+    "good": {
+        "label": "Good 😻",
+        "quantity": 6
+        },
+
+    "normal": {
+        "label": "Normal 🤷🏻‍♀️",
+        "quantity": 4
+        },
+
+    "bad": {
+        "label": "Bad 🙅🏻‍♀",
+        "quantity": 2
+        }
+    }
 
 moods_dict = {
     # happy
