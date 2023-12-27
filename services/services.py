@@ -1,8 +1,9 @@
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
 from moodtracker.models.models import User, Mood
+import random
 
 load_dotenv()
 
@@ -74,4 +75,28 @@ def create_mood_graph(username):
     if response.status_code == 200:
         print(f"Graph '{graph_url}/moodgraph1' created for user '{username}'")
     else:
-        print(f"Failed to create graph '{graph_url}/moodgraph1' for user '{username}'. Status code: {response.status_code}")
+        print(f"Failed to create graph '{graph_url}/moodgraph1' for user '{username}'. Status code: "
+              f"{response.status_code}")
+
+
+def post_a_pixel(username, quantity):
+    graph_url = f"https://pixe.la/v1/users/{username}/graphs/moodgraph1"
+
+    today_date = datetime.today().strftime('%Y%m%d')
+
+    headers = {
+        "X-USER-TOKEN": PIXELA_TOKEN
+        }
+
+    graph_config = {
+        "date": today_date,
+        "quantity": str(quantity),
+        }
+    print(graph_config)
+    response = requests.post(graph_url, json=graph_config, headers=headers)
+
+    if response.status_code == 200:
+        print(f"Pixel for {today_date} created for user '{username}'")
+    else:
+        print(f"Failed to create pixel for {today_date} created for user '{username}'. Status code: "
+              f"{response.status_code}")

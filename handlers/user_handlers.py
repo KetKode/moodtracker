@@ -11,7 +11,7 @@ from moodtracker.utils.utils import happy_sub_moods, sad_sub_moods, angry_sub_mo
     fearful_sub_moods, bad_sub_moods, disgusted_sub_moods, get_or_create_user
 from moodtracker.models.models import User, Mood
 from moodtracker.bot import session
-import datetime
+from moodtracker.services.services import post_a_pixel
 
 router = Router()
 
@@ -61,9 +61,9 @@ async def process_day_type_answer(callback: CallbackQuery, state: FSMContext):
     user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
 
     day_type = next(day_type for day_type in day_types if f"{day_type}_pressed" == callback.data)
-    print(day_type)
+    day_mood_quantity = day_types[f"{day_type}"]["quantity"]
 
-    await state.update_data(day_type=day_type)
+    await state.update_data(day_type=day_type, day_mood_quantity=day_mood_quantity)
     await callback.message.edit_text(text=LEXICON_EN["/log"], reply_markup=basic_emotions_kb)
     await state.set_state(ChooseMood.choosing_basic_mood)
 
@@ -91,8 +91,11 @@ async def process_happy_selection(callback: CallbackQuery, state: FSMContext):
 
     data = await state.get_data()
     day_type = data.get('day_type', '')
+    day_mood_quantity = data.get('day_mood_quantity', '')
 
     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type)
+
+    post_a_pixel(username=user.username, quantity=day_mood_quantity)
     session.add(new_mood)
     session.commit()
     await callback.message.reply(text=LEXICON_EN["respond_to_log"])

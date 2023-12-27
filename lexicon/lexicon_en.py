@@ -52,12 +52,12 @@ LEXICON_EN = {
 day_types = {
     "excellent": {
         "label": "Excellent! 🎉",
-        "quantity": 10
+        "quantity": 18
         },
 
     "good": {
         "label": "Good 😻",
-        "quantity": 6
+        "quantity": 9
         },
 
     "normal": {
@@ -67,7 +67,7 @@ day_types = {
 
     "bad": {
         "label": "Bad 🙅🏻‍♀",
-        "quantity": 2
+        "quantity": 1
         }
     }
 
