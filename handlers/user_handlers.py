@@ -50,6 +50,25 @@ async def process_start_command(message: Message, state: FSMContext):
     await state.set_state(ChooseMood.choosing_action)
 
 
+# handle graph command - return a link to the user with a graph
+@router.message(Command(commands=["graph"]))
+async def process_graph_command(message: Message):
+    user = get_or_create_user(telegram_user_id=message.from_user.id, username=message.from_user.username)
+    graph_url = f"https://pixe.la/v1/users/{user.username}/graphs/moodgraph1"
+    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=graph_url)
+
+    graph_kb = InlineKeyboardMarkup(inline_keyboard=[[graph_button]])
+
+    await message.answer(text=f"{LEXICON_EN['/graph']}",
+                         reply_markup=graph_kb)
+
+
+# handle help command
+@router.message(Command(commands=["help"]))
+async def process_help_command(message: Message):
+    await message.answer(text=f"{LEXICON_EN['/help']}")
+
+
 # handle "log button"
 @router.callback_query(
     ChooseMood.choosing_action,
@@ -57,6 +76,13 @@ async def process_start_command(message: Message, state: FSMContext):
 async def process_log_request(callback: CallbackQuery, state: FSMContext):
     await callback.message.edit_text(text=LEXICON_EN["start_day_type"],
                                      reply_markup=day_types_kb)
+    await state.set_state(ChooseMood.choosing_day_type)
+
+
+# handle log command
+@router.message(Command(commands=["log"]))
+async def process_log_command(message: Message, state: FSMContext):
+    await message.reply(text=LEXICON_EN["start_day_type"], reply_markup=day_types_kb)
     await state.set_state(ChooseMood.choosing_day_type)
 
 

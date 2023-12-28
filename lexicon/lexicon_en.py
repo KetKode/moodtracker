@@ -1,15 +1,15 @@
 import re
 
 COMMANDS = {
+
+    "/start": "Start Mood Tracker Journal bot",
+
     "/help": "See available commands",
 
     "/log": "Log today's mood",
 
-    "/history": "View your mood history and trends by period",
+    "/graph": "View your mood graph",
 
-    "/insights": "Get insights into your mood patterns",
-
-    "/tips": "Receive personalized tips to improve your mood",
     }
 
 LEXICON_EN = {
@@ -21,21 +21,17 @@ LEXICON_EN = {
               "To get started, tell me how you're feeling today, and I'll log it for you."
               ,
 
-    "/help": "🤖 *** Mood Tracker Journal - Help Center *** "
-             "Welcome to the help center! Here are some commands you can use:"
-             "**/log** - Log your current mood."
-             "**/history** - View your mood history and trends."
-             "**/insights** - Get insights into your mood patterns."
-             "**/tips** - Receive personalized tips to improve your mood."
+    "/help": "🤖 <b>Mood Tracker Journal - Help Center</b> \n"
+             "Welcome to the help center! Here are some commands you can use:\n\n"
+             "<b>/start</b> - Start Mood Tracker Journal bot\n"
+             "<b>/log</b> - Log your current mood\n"
+             "<b>/help</b> - See available commands\n"
+             "<b>/graph</b> - View your mood graph\n\n"
              "Remember, I'm here to assist you on your wellness journey. Let's make every mood count! 😊🌈",
 
     "/log": "Tell me how you're feeling today, and I'll log it for you 🪁",
 
     "/graph": "View your mood graph 👾",
-
-    "/insights": "Get insights into your mood patterns. Predict what can happen with your mood tomorrow.",
-
-    "/tips": "Receive personalized tips to improve your mood.",
 
     "log_button": "Log today's mood 🌙",
     "refuse_button": "I don't want to log my mood today 🌥️",
