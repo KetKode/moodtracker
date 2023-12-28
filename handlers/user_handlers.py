@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from moodtracker.keyboards.keyboards import basic_emotions_kb, sub_moods_happy_kb, sub_moods_fearful_kb,\
     sub_moods_disgusted_kb, sub_moods_surprised_kb, sub_moods_bad_kb, sub_moods_angry_kb, \
-    sub_moods_sad_kb, day_types_kb
+    sub_moods_sad_kb, day_types_kb, note_kb
 from moodtracker.lexicon.lexicon_en import LEXICON_EN, moods_dict, day_types
 from moodtracker.utils.utils import happy_sub_moods, sad_sub_moods, angry_sub_moods, surprised_sub_moods, \
     fearful_sub_moods, bad_sub_moods, disgusted_sub_moods, get_or_create_user
@@ -22,6 +22,7 @@ class ChooseMood(StatesGroup):
     choosing_day_type = State()
     choosing_basic_mood = State()
     choosing_sub_mood = State()
+    leaving_note = State()
 
 
 # handle start command
@@ -149,8 +150,8 @@ async def process_happy_selection(callback: CallbackQuery, state: FSMContext):
             ]
         )
 
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
-    await state.clear()
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=note_kb)
+    await state.set_state(ChooseMood.leaving_note)
 
 
 # 2 handle choosing **sad** as a basic emotion
@@ -190,8 +191,8 @@ async def process_sad_selection(callback: CallbackQuery, state: FSMContext):
             ]
         )
 
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
-    await state.clear()
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=note_kb)
+    await state.set_state(ChooseMood.leaving_note)
 
 
 # 3 handle choosing **angry** as a basic emotion
@@ -232,8 +233,8 @@ async def process_angry_selection(callback: CallbackQuery, state: FSMContext):
             ]
         )
 
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
-    await state.clear()
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=note_kb)
+    await state.set_state(ChooseMood.leaving_note)
 
 
 # 4 handle choosing **surprised** as a basic emotion
@@ -274,8 +275,8 @@ async def process_surprised_selection(callback: CallbackQuery, state: FSMContext
             ]
         )
 
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
-    await state.clear()
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=note_kb)
+    await state.set_state(ChooseMood.leaving_note)
 
 
 # 5 handle choosing **fearful** as a basic emotion
@@ -316,8 +317,8 @@ async def process_fearful_selection(callback: CallbackQuery, state: FSMContext):
             ]
         )
 
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
-    await state.clear()
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=note_kb)
+    await state.set_state(ChooseMood.leaving_note)
 
 
 # 6 handle choosing **bad** as a basic emotion
@@ -358,8 +359,8 @@ async def process_bad_selection(callback: CallbackQuery, state: FSMContext):
             ]
         )
 
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
-    await state.clear()
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=note_kb)
+    await state.set_state(ChooseMood.leaving_note)
 
 
 # 7 handle choosing **disgusted** as a basic emotion
@@ -399,5 +400,30 @@ async def process_disgusted_selection(callback: CallbackQuery, state: FSMContext
             ]
         )
 
-    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=end_kb)
+    await callback.message.reply(text=LEXICON_EN["respond_to_log"], reply_markup=note_kb)
+    await state.set_state(ChooseMood.leaving_note)
+
+
+# handle note accepted button
+@router.callback_query(
+    ChooseMood.leaving_note,
+    F.data == "note_accept_pressed")
+async def process_note_accepted(callback: CallbackQuery, state: FSMContext):
+    pass
+
+
+# handle note refused button
+@router.callback_query(
+    ChooseMood.leaving_note,
+    F.data == "note_refuse_pressed")
+async def process_note_accepted(callback: CallbackQuery, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
+
+    graph_button = InlineKeyboardButton (text="See my mood journal 📓", url=user.pixela_graph_url)
+    end_kb = InlineKeyboardMarkup (
+        inline_keyboard=[
+            [graph_button]
+            ]
+        )
+    await callback.message.reply(text=f"{LEXICON_EN['note_refuse']}", reply_markup=end_kb)
     await state.clear()
