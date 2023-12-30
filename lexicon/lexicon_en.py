@@ -45,8 +45,8 @@ LEXICON_EN = {
     "respond_to_log": "Thank you for logging your emotions 🌈",
 
     "note_button": "Do you want to add a short note to remember this day? 📓",
-    "note_accept": "Leave a short note to describe what happened today 📝",
-    "note_refuse": "It's okay not to leave a note! 🌙"
+    "note_accept": "Leave a note 📝",
+    "note_refuse": "No note for today 🌙"
 
     }
 
