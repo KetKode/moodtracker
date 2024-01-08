@@ -287,9 +287,39 @@ async def process_disgusted_selection(callback: CallbackQuery, state: FSMContext
 
 
 # handle note accepted button
-@router.callback_query(
+@router.message(
     ChooseMood.leaving_note,
     F.data == "note_accept_pressed")
+async def process_note_accepted(message: Message, state: FSMContext):
+    user = get_or_create_user(telegram_user_id=message.from_user.id, username=message.from_user.username)
+
+    data = await state.get_data()
+    day_type = data.get('day_type', '')
+    day_mood_quantity = data.get('day_mood_quantity', '')
+    mood_value = data.get('mood_value', '')
+    sub_mood_value = data.get('sub_mood_value', '')
+    note = message.text
+
+    new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type, note=note)
+    post_a_pixel(username=user.username, quantity=day_mood_quantity)
+
+    session.add(new_mood)
+    session.commit()
+
+    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
+    end_kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [graph_button]
+            ]
+        )
+    await message.reply(text=f"{LEXICON_EN['respond_to_log']}", reply_markup=end_kb)
+    await state.clear()
+
+
+# handle note refused button
+@router.callback_query(
+    ChooseMood.leaving_note,
+    F.data == "note_refuse_pressed")
 async def process_note_accepted(callback: CallbackQuery, state: FSMContext):
     user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
 
@@ -304,23 +334,6 @@ async def process_note_accepted(callback: CallbackQuery, state: FSMContext):
 
     session.add(new_mood)
     session.commit()
-
-    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
-    end_kb = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [graph_button]
-            ]
-        )
-    await callback.message.reply(text=f"{LEXICON_EN['respond_to_log']}", reply_markup=end_kb)
-    await state.clear()
-
-
-# handle note refused button
-@router.callback_query(
-    ChooseMood.leaving_note,
-    F.data == "note_refuse_pressed")
-async def process_note_accepted(callback: CallbackQuery, state: FSMContext):
-    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
 
     graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
     end_kb = InlineKeyboardMarkup(
