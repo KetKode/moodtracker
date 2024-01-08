@@ -31,7 +31,7 @@ def get_or_create_user(telegram_user_id, username):
     if not user:
         user = User(telegram_user_id=telegram_user_id, username=lowercase_username)
 
-        required_pixela_user_url = f"https://pixe.la/v1/users/{username}"
+        required_pixela_user_url = f"https://pixe.la/v1/users/{lowercase_username}"
         pixela_user_url = session.query(User).filter(User.pixela_user_url == required_pixela_user_url).first()
 
         if not pixela_user_url:
@@ -39,7 +39,7 @@ def get_or_create_user(telegram_user_id, username):
             create_mood_graph(lowercase_username)
 
         user.pixela_user_url = required_pixela_user_url
-        user.pixela_graph_url = f"https://pixe.la/v1/users/{username}/graphs/moodgraph1"
+        user.pixela_graph_url = f"https://pixe.la/v1/users/{username}/graphs/moodgraph1.html"
 
         session.add(user)
         session.commit()

@@ -30,7 +30,7 @@ class ChooseMood(StatesGroup):
 async def process_start_command(message: Message, state: FSMContext):
     user = get_or_create_user(telegram_user_id=message.from_user.id, username=message.from_user.username)
 
-    graph_url = f"https://pixe.la/v1/users/{user.username}/graphs/moodgraph1"
+    graph_url = f"https://pixe.la/v1/users/{user.username}/graphs/moodgraph1.html"
 
     # log or refuse logging - starting keyboard
     log_button = InlineKeyboardButton(text=LEXICON_EN["log_button"], callback_data="log_callback")
@@ -45,9 +45,7 @@ async def process_start_command(message: Message, state: FSMContext):
             [graph_button]
             ]
         )
-    await message.answer(text=f"{LEXICON_EN['/start']}\n\n"
-                              f"<b>here is the link to your mood graph:</b>\n"
-                              f"https://pixe.la/v1/users/{user.username}/graphs/moodgraph1", reply_markup=start_kb)
+    await message.answer(text=f"{LEXICON_EN['/start']}\n\n", reply_markup=start_kb)
     await state.set_state(ChooseMood.choosing_action)
 
 
