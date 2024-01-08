@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from moodtracker.keyboards.keyboards import basic_emotions_kb, sub_moods_happy_kb, sub_moods_fearful_kb,\
     sub_moods_disgusted_kb, sub_moods_surprised_kb, sub_moods_bad_kb, sub_moods_angry_kb, \
-    sub_moods_sad_kb, day_types_kb, note_kb
+    sub_moods_sad_kb, day_types_kb
 from moodtracker.lexicon.lexicon_en import LEXICON_EN, moods_dict, day_types
 from moodtracker.utils.utils import happy_sub_moods, sad_sub_moods, angry_sub_moods, surprised_sub_moods, \
     fearful_sub_moods, bad_sub_moods, disgusted_sub_moods, get_or_create_user
@@ -132,7 +132,7 @@ async def process_happy_selection(callback: CallbackQuery, state: FSMContext):
     sub_mood_value = next(sub_mood for sub_mood in happy_sub_moods if f"{sub_mood}_pressed" == callback.data)
 
     await state.update_data(mood_value=mood_value, sub_mood_value=sub_mood_value)
-    await callback.message.reply(text=LEXICON_EN["note_button"], reply_markup=note_kb)
+    await callback.message.reply(text=LEXICON_EN["note_button"])
     await state.set_state(ChooseMood.leaving_note)
 
 
@@ -157,7 +157,7 @@ async def process_sad_selection(callback: CallbackQuery, state: FSMContext):
     sub_mood_value = next(sub_mood for sub_mood in sad_sub_moods if f"{sub_mood}_pressed" == callback.data)
 
     await state.update_data(mood_value=mood_value, sub_mood_value=sub_mood_value)
-    await callback.message.reply(text=LEXICON_EN["note_button"], reply_markup=note_kb)
+    await callback.message.reply(text=LEXICON_EN["note_button"])
     await state.set_state(ChooseMood.leaving_note)
 
 
@@ -182,7 +182,7 @@ async def process_angry_selection(callback: CallbackQuery, state: FSMContext):
     sub_mood_value = next(sub_mood for sub_mood in angry_sub_moods if f"{sub_mood}_pressed" == callback.data)
 
     await state.update_data(mood_value=mood_value, sub_mood_value=sub_mood_value)
-    await callback.message.reply(text=LEXICON_EN["note_button"], reply_markup=note_kb)
+    await callback.message.reply(text=LEXICON_EN["note_button"])
     await state.set_state(ChooseMood.leaving_note)
 
 
@@ -207,7 +207,7 @@ async def process_surprised_selection(callback: CallbackQuery, state: FSMContext
     sub_mood_value = next(sub_mood for sub_mood in surprised_sub_moods if f"{sub_mood}_pressed" == callback.data)
 
     await state.update_data(mood_value=mood_value, sub_mood_value=sub_mood_value)
-    await callback.message.reply(text=LEXICON_EN["note_button"], reply_markup=note_kb)
+    await callback.message.reply(text=LEXICON_EN["note_button"])
     await state.set_state(ChooseMood.leaving_note)
 
 
@@ -232,7 +232,7 @@ async def process_fearful_selection(callback: CallbackQuery, state: FSMContext):
     sub_mood_value = next(sub_mood for sub_mood in fearful_sub_moods if f"{sub_mood}_pressed" == callback.data)
 
     await state.update_data(mood_value=mood_value, sub_mood_value=sub_mood_value)
-    await callback.message.reply(text=LEXICON_EN["note_button"], reply_markup=note_kb)
+    await callback.message.reply(text=LEXICON_EN["note_button"])
     await state.set_state(ChooseMood.leaving_note)
 
 
@@ -257,7 +257,7 @@ async def process_bad_selection(callback: CallbackQuery, state: FSMContext):
     sub_mood_value = next(sub_mood for sub_mood in bad_sub_moods if f"{sub_mood}_pressed" == callback.data)
 
     await state.update_data(mood_value=mood_value, sub_mood_value=sub_mood_value)
-    await callback.message.reply(text=LEXICON_EN["note_button"], reply_markup=note_kb)
+    await callback.message.reply(text=LEXICON_EN["note_button"])
     await state.set_state(ChooseMood.leaving_note)
 
 
@@ -282,14 +282,13 @@ async def process_disgusted_selection(callback: CallbackQuery, state: FSMContext
     sub_mood_value = next(sub_mood for sub_mood in disgusted_sub_moods if f"{sub_mood}_pressed" == callback.data)
 
     await state.update_data(mood_value=mood_value, sub_mood_value=sub_mood_value)
-    await callback.message.reply(text=LEXICON_EN["note_button"], reply_markup=note_kb)
+    await callback.message.reply(text=LEXICON_EN["note_button"])
     await state.set_state(ChooseMood.leaving_note)
 
 
-# handle note accepted button
+# handle note leaving state
 @router.message(
-    ChooseMood.leaving_note,
-    F.data == "note_accept_pressed")
+    ChooseMood.leaving_note)
 async def process_note_accepted(message: Message, state: FSMContext):
     user = get_or_create_user(telegram_user_id=message.from_user.id, username=message.from_user.username)
 
@@ -299,6 +298,7 @@ async def process_note_accepted(message: Message, state: FSMContext):
     mood_value = data.get('mood_value', '')
     sub_mood_value = data.get('sub_mood_value', '')
     note = message.text
+    print(note)
 
     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type, note=note)
     post_a_pixel(username=user.username, quantity=day_mood_quantity)
@@ -316,30 +316,30 @@ async def process_note_accepted(message: Message, state: FSMContext):
     await state.clear()
 
 
-# handle note refused button
-@router.callback_query(
-    ChooseMood.leaving_note,
-    F.data == "note_refuse_pressed")
-async def process_note_accepted(callback: CallbackQuery, state: FSMContext):
-    user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
-
-    data = await state.get_data()
-    day_type = data.get('day_type', '')
-    day_mood_quantity = data.get('day_mood_quantity', '')
-    mood_value = data.get('mood_value', '')
-    sub_mood_value = data.get('sub_mood_value', '')
-
-    new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type)
-    post_a_pixel(username=user.username, quantity=day_mood_quantity)
-
-    session.add(new_mood)
-    session.commit()
-
-    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
-    end_kb = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [graph_button]
-            ]
-        )
-    await callback.message.reply(text=f"{LEXICON_EN['note_refuse']}", reply_markup=end_kb)
-    await state.clear()
+# # handle note refused button
+# @router.callback_query(
+#     ChooseMood.leaving_note,
+#     F.data == "note_refuse_pressed")
+# async def process_note_accepted(callback: CallbackQuery, state: FSMContext):
+#     user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
+#
+#     data = await state.get_data()
+#     day_type = data.get('day_type', '')
+#     day_mood_quantity = data.get('day_mood_quantity', '')
+#     mood_value = data.get('mood_value', '')
+#     sub_mood_value = data.get('sub_mood_value', '')
+#
+#     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type)
+#     post_a_pixel(username=user.username, quantity=day_mood_quantity)
+#
+#     session.add(new_mood)
+#     session.commit()
+#
+#     graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
+#     end_kb = InlineKeyboardMarkup(
+#         inline_keyboard=[
+#             [graph_button]
+#             ]
+#         )
+#     await callback.message.reply(text=f"{LEXICON_EN['note_refuse']}", reply_markup=end_kb)
+#     await state.clear()

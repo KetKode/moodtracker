@@ -113,9 +113,9 @@ for sub_mood in disgusted_sub_moods:
 sub_moods_disgusted_kb = InlineKeyboardMarkup(inline_keyboard=sub_moods_disgusted_buttons)
 
 
-note_accept_button = InlineKeyboardButton(text=f"{LEXICON_EN['note_accept']}", callback_data="note_accept_pressed")
-note_refuse_button = InlineKeyboardButton(text=f"{LEXICON_EN['note_refuse']}", callback_data="note_refuse_pressed")
-note_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [note_accept_button],
-    [note_refuse_button]
-        ])
+# note_accept_button = InlineKeyboardButton(text=f"{LEXICON_EN['note_accept']}", callback_data="note_accept_pressed")
+# note_refuse_button = InlineKeyboardButton(text=f"{LEXICON_EN['note_refuse']}", callback_data="note_refuse_pressed")
+# note_kb = InlineKeyboardMarkup(inline_keyboard=[
+#     [note_accept_button],
+#     [note_refuse_button]
+#         ])

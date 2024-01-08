@@ -39,7 +39,7 @@ def get_or_create_user(telegram_user_id, username):
             create_mood_graph(lowercase_username)
 
         user.pixela_user_url = required_pixela_user_url
-        user.pixela_graph_url = f"https://pixe.la/v1/users/{username}/graphs/moodgraph1.html"
+        user.pixela_graph_url = f"https://pixe.la/v1/users/{lowercase_username}/graphs/moodgraph1.html"
 
         session.add(user)
         session.commit()

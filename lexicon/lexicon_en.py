@@ -29,24 +29,24 @@ LEXICON_EN = {
              "<b>/graph</b> - View your mood graph\n\n"
              "Remember, I'm here to assist you on your wellness journey. Let's make every mood count! 😊🌈",
 
-    "/log": "Tell me how you're feeling today, and I'll log it for you 🪁",
+    "/log": "Today I felt...",
 
     "/graph": "View your mood graph 👾",
 
     "log_button": "Log today's mood 🌙",
     "refuse_button": "I don't want to log my mood today 🌥️",
 
-    "user_refuse": "I understand and respect your wish not to share your mood log today 🦋"
+    "user_refuse": "I understand and respect your wish not to share your mood log today.\n"
                    "See you tomorrow!",
-    "start_day_type": "Let's start by grading your day overall 🫧",
+    "start_day_type": "Today was...",
 
-    "specify_emotion": "Choose one of the following shades of emotions to specify how you feel 💫",
+    "specify_emotion": "I also felt...",
 
-    "respond_to_log": "Thank you for logging your emotions 🌈",
+    "respond_to_log": "Thank you for logging your emotions!",
 
-    "note_button": "Do you want to add a short note to remember this day? 📓",
-    "note_accept": "Leave a note 📝",
-    "note_refuse": "No note for today 🌙"
+    "note_button": "What happened today? Leave a short note.",
+    # "note_accept": "Leave a note 📝",
+    # "note_refuse": "No note for today 🌙"
 
     }
 

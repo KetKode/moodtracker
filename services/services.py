@@ -89,7 +89,7 @@ def post_a_pixel(username, quantity):
         }
 
     graph_config = {
-        "date": today_date,
+        "date": "20240108",
         "quantity": str(quantity),
         }
     print(graph_config)
@@ -106,3 +106,4 @@ def get_graph(username):
     graph_url = f"https://pixe.la/v1/users/{username}/graphs/moodgraph1"
 
     return graph_url
+
