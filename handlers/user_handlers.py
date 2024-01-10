@@ -13,7 +13,7 @@ from moodtracker.models.models import User, Mood
 from moodtracker.bot import session
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from moodtracker.services.services import post_a_pixel
-from datetime import datetime,
+from datetime import datetime
 
 router = Router()
 
@@ -310,6 +310,8 @@ async def process_note_accepted(message: Message, state: FSMContext):
     session.add(new_mood)
     session.commit()
 
+    today_date = datetime.today().strftime("%m/%d/%Y")
+
     graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
     log_button = InlineKeyboardButton(text=LEXICON_EN["log_button"], callback_data="log_callback")
     end_kb = InlineKeyboardMarkup(
@@ -318,7 +320,12 @@ async def process_note_accepted(message: Message, state: FSMContext):
             [log_button]
             ]
         )
-    await message.reply(text=f"{LEXICON_EN['respond_to_log']}", reply_markup=end_kb)
+    await message.reply(text=f"Thank you for logging your mood!\n"
+                             f"Today is <b>{today_date}</b>\n"
+                             f"Your day was <b>{day_type}</b>\n"
+                             f"You felt <b>{mood_value}</b>\n"
+                             f"And also you felt <b>{sub_mood_value}</b>\n"
+                             f"What happened today: <b>{note}</b>", reply_markup=end_kb)
     await state.clear()
 
 
