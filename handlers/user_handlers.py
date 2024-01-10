@@ -13,6 +13,7 @@ from moodtracker.models.models import User, Mood
 from moodtracker.bot import session
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from moodtracker.services.services import post_a_pixel
+from datetime import datetime,
 
 router = Router()
 
@@ -106,6 +107,9 @@ async def process_day_type_answer(callback: CallbackQuery, state: FSMContext):
     day_mood_quantity = day_types[f"{day_type}"]["quantity"]
 
     await state.update_data(day_type=day_type, day_mood_quantity=day_mood_quantity)
+    await callback.message.answer_photo (
+        photo="https://miro.medium.com/v2/resize:fit:1080/1*ieAJuyRI3-iOVOBnJzkEwA.jpeg",
+        caption="Use this wheel for mood and sub mood reference")
     await callback.message.edit_text(text=LEXICON_EN["/log"], reply_markup=basic_emotions_kb)
     await state.set_state(ChooseMood.choosing_basic_mood)
 
