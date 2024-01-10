@@ -89,7 +89,7 @@ def post_a_pixel(username, quantity):
         }
 
     graph_config = {
-        "date": "20240108",
+        "date": today_date,
         "quantity": str(quantity),
         }
     print(graph_config)

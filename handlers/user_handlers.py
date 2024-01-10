@@ -307,9 +307,11 @@ async def process_note_accepted(message: Message, state: FSMContext):
     session.commit()
 
     graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
+    log_button = InlineKeyboardButton(text=LEXICON_EN["log_button"], callback_data="log_callback")
     end_kb = InlineKeyboardMarkup(
         inline_keyboard=[
-            [graph_button]
+            [graph_button],
+            [log_button]
             ]
         )
     await message.reply(text=f"{LEXICON_EN['respond_to_log']}", reply_markup=end_kb)
