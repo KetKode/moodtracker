@@ -1,7 +1,7 @@
 from aiogram import Bot
 from aiogram.types import BotCommand
 
-from moodtracker.lexicon.lexicon_en import COMMANDS
+from lexicon.lexicon_en import COMMANDS
 
 
 async def set_main_menu(bot: Bot):

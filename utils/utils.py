@@ -1,6 +1,6 @@
-from moodtracker.bot import session
-from moodtracker.models.models import User
-from moodtracker.services.services import create_user, create_mood_graph
+from bot import session
+from models.models import User
+from services.services import create_user, create_mood_graph
 
 happy_sub_moods = ['Playful 😉', 'Content 😌', 'Interested 🤓', 'Proud 🥹', 'Accepted 🤗', 'Powerful 🔋',
                    'Peaceful ☮️', 'Trusting 🤫', 'Optimistic 🍀']
