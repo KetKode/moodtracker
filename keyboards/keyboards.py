@@ -1,13 +1,8 @@
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from aiogram.filters import CommandStart
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from moodtracker.lexicon.lexicon_en import LEXICON_EN, moods_dict, day_types
+from moodtracker.lexicon.lexicon_en import moods_dict, day_types
 from moodtracker.utils.utils import happy_sub_moods, sad_sub_moods, angry_sub_moods, surprised_sub_moods, \
     fearful_sub_moods, bad_sub_moods, disgusted_sub_moods
-from moodtracker.services.services import get_graph
-
-
-from moodtracker.models.models import User
 
 # start logging - day types
 button_excellent_day = InlineKeyboardButton(text=day_types["excellent"]["label"],

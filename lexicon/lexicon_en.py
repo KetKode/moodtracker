@@ -1,5 +1,3 @@
-import re
-
 COMMANDS = {
 
     "/start": "Start Mood Tracker Journal bot",

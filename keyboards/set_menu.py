@@ -1,5 +1,6 @@
 from aiogram import Bot
 from aiogram.types import BotCommand
+
 from moodtracker.lexicon.lexicon_en import COMMANDS
 
 

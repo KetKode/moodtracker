@@ -1,7 +1,8 @@
-from dataclasses import dataclass
-from environs import Env
 import os
+from dataclasses import dataclass
+
 from dotenv import load_dotenv
+from environs import Env
 
 load_dotenv()
 

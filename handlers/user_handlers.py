@@ -1,19 +1,21 @@
+from datetime import datetime
+
 from aiogram import F, Router
-from aiogram.filters import Command, CommandStart, StateFilter
-from aiogram.fsm.state import default_state, State, StatesGroup
+from aiogram.filters import Command, CommandStart
 from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.types import Message, CallbackQuery
-from moodtracker.keyboards.keyboards import basic_emotions_kb, sub_moods_happy_kb, sub_moods_fearful_kb,\
+
+from moodtracker.bot import session
+from moodtracker.keyboards.keyboards import basic_emotions_kb, sub_moods_happy_kb, sub_moods_fearful_kb, \
     sub_moods_disgusted_kb, sub_moods_surprised_kb, sub_moods_bad_kb, sub_moods_angry_kb, \
     sub_moods_sad_kb, day_types_kb
 from moodtracker.lexicon.lexicon_en import LEXICON_EN, moods_dict, day_types
+from moodtracker.models.models import Mood
+from moodtracker.services.services import post_a_pixel
 from moodtracker.utils.utils import happy_sub_moods, sad_sub_moods, angry_sub_moods, surprised_sub_moods, \
     fearful_sub_moods, bad_sub_moods, disgusted_sub_moods, get_or_create_user
-from moodtracker.models.models import User, Mood
-from moodtracker.bot import session
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from moodtracker.services.services import post_a_pixel
-from datetime import datetime
 
 router = Router()
 
@@ -326,7 +328,7 @@ async def process_note_accepted(message: Message, state: FSMContext):
                              f"You felt <b>{mood_value}</b>\n"
                              f"And also you felt <b>{sub_mood_value}</b>\n"
                              f"What happened today: <b>{note}</b>", reply_markup=end_kb)
-    await state.clear()
+    await state.set_state(ChooseMood.choosing_action)
 
 
 # # handle note refused button

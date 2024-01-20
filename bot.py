@@ -3,12 +3,13 @@ import logging
 
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.redis import RedisStorage, Redis
-from config_data.config import Config, load_config
-from handlers import other_handlers, user_handlers
-from keyboards.set_menu import set_main_menu
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+from config_data.config import load_config
+from handlers import user_handlers
+from keyboards.set_menu import set_main_menu
 from moodtracker.config_data.config import DATABASE, POSTGRES_USER, POSTGRES_PASSWORD, ip
 
 DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{ip}/{DATABASE}"

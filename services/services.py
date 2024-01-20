@@ -1,9 +1,8 @@
-import requests
-from datetime import datetime, timedelta
 import os
+from datetime import datetime
+
+import requests
 from dotenv import load_dotenv
-from moodtracker.models.models import User, Mood
-import random
 
 load_dotenv()
 
