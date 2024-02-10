@@ -12,7 +12,7 @@ from handlers import user_handlers
 from keyboards.set_menu import set_main_menu
 from config_data.config import DATABASE, POSTGRES_USER, POSTGRES_PASSWORD, ip
 
-DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{ip}/{DATABASE}"
+DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}/{DATABASE}"
 
 # define SQLAlchemy model for storing data
 Base = declarative_base()
