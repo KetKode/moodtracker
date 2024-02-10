@@ -109,10 +109,10 @@ async def process_day_type_answer(callback: CallbackQuery, state: FSMContext):
     day_mood_quantity = day_types[f"{day_type}"]["quantity"]
 
     await state.update_data(day_type=day_type, day_mood_quantity=day_mood_quantity)
-    await callback.message.answer_photo (
+    await callback.message.answer_photo(
         photo="https://miro.medium.com/v2/resize:fit:1080/1*ieAJuyRI3-iOVOBnJzkEwA.jpeg",
-        caption="Use this wheel for mood and sub mood reference")
-    await callback.message.edit_text(text=LEXICON_EN["/log"], reply_markup=basic_emotions_kb)
+        caption="Use this wheel for mood and sub mood reference.")
+    await callback.message.answer(text=LEXICON_EN["/log"], reply_markup=basic_emotions_kb)
     await state.set_state(ChooseMood.choosing_basic_mood)
 
 
@@ -307,54 +307,41 @@ async def process_note_accepted(message: Message, state: FSMContext):
     print(note)
 
     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type, note=note)
-    post_a_pixel(username=user.username, quantity=day_mood_quantity)
+    new_pixel = post_a_pixel(username=user.username, quantity=day_mood_quantity)
 
-    session.add(new_mood)
-    session.commit()
+    if new_pixel.response.status_code == 200:
+        print(f"Pixel '{new_pixel}' was created successfully.")
 
-    today_date = datetime.today().strftime("%m/%d/%Y")
+        session.add(new_mood)
+        session.commit()
 
-    graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
-    log_button = InlineKeyboardButton(text=LEXICON_EN["log_button"], callback_data="log_callback")
-    end_kb = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [graph_button],
-            [log_button]
-            ]
-        )
-    await message.reply(text=f"Thank you for logging your mood!\n"
-                             f"Today is <b>{today_date}</b>\n"
-                             f"Your day was <b>{day_type}</b>\n"
-                             f"You felt <b>{mood_value}</b>\n"
-                             f"And also you felt <b>{sub_mood_value}</b>\n"
-                             f"What happened today: <b>{note}</b>", reply_markup=end_kb)
-    await state.set_state(ChooseMood.choosing_action)
+        today_date = datetime.today().strftime("%m/%d/%Y")
 
+        graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
+        log_button = InlineKeyboardButton(text=LEXICON_EN["log_button"], callback_data="log_callback")
+        end_kb = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [graph_button],
+                [log_button]
+                ]
+            )
+        await message.reply(text=f"Thank you for logging your mood!\n\n"
+                                 f"Today is <b>{today_date}</b>\n\n"
+                                 f"Your day was <b>{day_type}</b>\n\n"
+                                 f"You felt <b>{mood_value}</b>\n\n"
+                                 f"And also you felt <b>{sub_mood_value}</b>\n\n"
+                                 f"What happened today: <b>{note}</b>", reply_markup=end_kb)
+        await state.set_state(ChooseMood.choosing_action)
 
-# # handle note refused button
-# @router.callback_query(
-#     ChooseMood.leaving_note,
-#     F.data == "note_refuse_pressed")
-# async def process_note_accepted(callback: CallbackQuery, state: FSMContext):
-#     user = get_or_create_user(telegram_user_id=callback.from_user.id, username=callback.from_user.username)
-#
-#     data = await state.get_data()
-#     day_type = data.get('day_type', '')
-#     day_mood_quantity = data.get('day_mood_quantity', '')
-#     mood_value = data.get('mood_value', '')
-#     sub_mood_value = data.get('sub_mood_value', '')
-#
-#     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type)
-#     post_a_pixel(username=user.username, quantity=day_mood_quantity)
-#
-#     session.add(new_mood)
-#     session.commit()
-#
-#     graph_button = InlineKeyboardButton(text="See my mood journal 📓", url=user.pixela_graph_url)
-#     end_kb = InlineKeyboardMarkup(
-#         inline_keyboard=[
-#             [graph_button]
-#             ]
-#         )
-#     await callback.message.reply(text=f"{LEXICON_EN['note_refuse']}", reply_markup=end_kb)
-#     await state.clear()
+    else:
+        graph_button = InlineKeyboardButton (text="See my mood journal 📓", url=user.pixela_graph_url)
+        log_button = InlineKeyboardButton (text=LEXICON_EN["log_button"], callback_data="log_callback")
+        end_kb = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [graph_button],
+                [log_button]
+                ]
+            )
+        await message.reply(text=f"Failed to create a pixel for today ??. Plase try again later.",
+                            reply_markup=end_kb)
+

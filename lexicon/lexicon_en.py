@@ -14,10 +14,8 @@ LEXICON_EN = {
     "/start": "🌈 <b>Welcome to Mood Tracker Journal - Your Personal Mood Tracker!</b>"
               "\n\n"
               "Hey there! I'm here to help you keep track of your moods and emotions. "
-              "Whether you're feeling ecstatic, stressed, or somewhere in between, I'm here to listen. 🤖✨\n"
               "\n\n"
-              "To get started, tell me how you're feeling today, and I'll log it for you."
-              ,
+              "Whether you're feeling ecstatic, stressed, or somewhere in between, I'm here to listen. 🤖✨",
 
     "/help": "🤖 <b>Mood Tracker Journal - Help Center</b> \n"
              "Welcome to the help center! Here are some commands you can use:\n\n"
@@ -34,7 +32,7 @@ LEXICON_EN = {
     "log_button": "Log today's mood 🌙",
     "refuse_button": "I don't want to log my mood today 🌥️",
 
-    "user_refuse": "I understand and respect your wish not to share your mood log today.\n"
+    "user_refuse": "I understand and respect your wish not to share your mood log today.\n\n"
                    "See you tomorrow!",
     "start_day_type": "Today was...",
 
@@ -43,8 +41,6 @@ LEXICON_EN = {
     "respond_to_log": "Thank you for logging your emotions!",
 
     "note_button": "What happened today? Leave a short note.",
-    # "note_accept": "Leave a note 📝",
-    # "note_refuse": "No note for today 🌙"
 
     }
 
