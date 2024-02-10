@@ -308,9 +308,10 @@ async def process_note_accepted(message: Message, state: FSMContext):
 
     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type, note=note)
     new_pixel = post_a_pixel(username=user.username, quantity=day_mood_quantity)
+    print(new_pixel)
 
-    if new_pixel.status_code == 200:
-        print(f"Pixel '{new_pixel}' was created successfully.")
+    if new_pixel == 200:
+        print(f"Pixel for today was created successfully.")
 
         session.add(new_mood)
         session.commit()
@@ -325,6 +326,7 @@ async def process_note_accepted(message: Message, state: FSMContext):
                 [log_button]
                 ]
             )
+        await message.reply(text="Pixel for today was created successfully!")
         await message.reply(text=f"Thank you for logging your mood!\n\n"
                                  f"Today is <b>{today_date}</b>\n\n"
                                  f"Your day was <b>{day_type}</b>\n\n"
@@ -342,6 +344,6 @@ async def process_note_accepted(message: Message, state: FSMContext):
                 [log_button]
                 ]
             )
-        await message.reply(text=f"Failed to create a pixel for today ??. Plase try again later.",
+        await message.reply(text=f"Failed to create a pixel for today 😢. Plase try again later.",
                             reply_markup=end_kb)
 
