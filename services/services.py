@@ -96,9 +96,11 @@ def post_a_pixel(username, quantity):
 
     if response.status_code == 200:
         print(f"Pixel for {today_date} created for user '{username}'")
+        return response.status_code
     else:
         print(f"Failed to create pixel for {today_date} created for user '{username}'. Status code: "
               f"{response.status_code}")
+        return response.status_code
 
 
 def get_graph(username):
