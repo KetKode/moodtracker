@@ -309,7 +309,7 @@ async def process_note_accepted(message: Message, state: FSMContext):
     new_mood = Mood(user=user, mood_value=mood_value, sub_mood_value=sub_mood_value, day_type=day_type, note=note)
     new_pixel = post_a_pixel(username=user.username, quantity=day_mood_quantity)
 
-    if new_pixel.response.status_code == 200:
+    if new_pixel.status_code == 200:
         print(f"Pixel '{new_pixel}' was created successfully.")
 
         session.add(new_mood)
