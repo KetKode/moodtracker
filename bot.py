@@ -10,9 +10,11 @@ from sqlalchemy.orm import sessionmaker
 from config_data.config import load_config
 from handlers import user_handlers
 from keyboards.set_menu import set_main_menu
-from config_data.config import POSTGRESQL_HOST, POSTGRESQL_USER, POSTGRESQL_PASSWORD, POSTGRESQL_DBNAME
+from config_data.config import POSTGRESQL_HOST, POSTGRESQL_USER, POSTGRESQL_PASSWORD, POSTGRESQL_DBNAME, \
+    REDIS_HOST, REDIS_PORT, REDIS_PASSWORD, REDIS_USERNAME
 
 DATABASE_URL = f"postgresql://{POSTGRESQL_USER}:{POSTGRESQL_PASSWORD}@{POSTGRESQL_HOST}/{POSTGRESQL_DBNAME}"
+
 
 # define SQLAlchemy model for storing data
 Base = declarative_base()
@@ -28,7 +30,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 # set up Redis storage for FSMContext
-redis = Redis(host="localhost")
+redis = Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD, username=REDIS_USERNAME)
 storage = RedisStorage(redis=redis)
 
 
