@@ -10,9 +10,9 @@ from sqlalchemy.orm import sessionmaker
 from config_data.config import load_config
 from handlers import user_handlers
 from keyboards.set_menu import set_main_menu
-from config_data.config import DATABASE, POSTGRES_USER, POSTGRES_PASSWORD, ip
+from config_data.config import POSTGRESQL_HOST, POSTGRESQL_USER, POSTGRESQL_PASSWORD, POSTGRESQL_DBNAME
 
-DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}/{DATABASE}"
+DATABASE_URL = f"postgresql://{POSTGRESQL_USER}:{POSTGRESQL_PASSWORD}@{POSTGRESQL_HOST}/{POSTGRESQL_DBNAME}"
 
 # define SQLAlchemy model for storing data
 Base = declarative_base()

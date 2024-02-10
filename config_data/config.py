@@ -23,7 +23,7 @@ def load_config(path: str | None = None) -> Config:
     return Config(tg_bot=TgBot(token=env("BOT_TOKEN")))
 
 
-ip = os.getenv("ip")
-POSTGRES_USER = str(os.getenv("POSTGRES_USER"))
-POSTGRES_PASSWORD = str(os.getenv("POSTGRES_PASSWORD"))
-DATABASE = str(os.getenv("DATABASE"))
+POSTGRESQL_HOST = os.getenv("POSTGRESQL_HOST")
+POSTGRESQL_USER = str(os.getenv("POSTGRESQL_USER"))
+POSTGRESQL_PASSWORD = str(os.getenv("POSTGRESQL_PASSWORD"))
+POSTGRESQL_DBNAME = str(os.getenv("POSTGRESQL_DBNAME"))
